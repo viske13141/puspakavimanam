@@ -11,8 +11,6 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
-import { Chrome } from "@/components/chrome/Chrome";
-import { PageTransition } from "@/components/scene/PageTransition";
 import { AuthProvider } from "@/lib/auth";
 
 function NotFoundComponent() {
@@ -81,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "HELITEJET" },
-      { name: "theme-color", content: "#141318" },
+      { name: "theme-color", content: "#ffffff" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -91,7 +89,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@400;500&display=swap",
       },
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpIvFH3O4dBsrab34JqzqW5qRKIetrXfnBtEtpT_Jg4--fEBjzkexT5Fw&s=10" },
+      {
+        rel: "icon",
+        href: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpIvFH3O4dBsrab34JqzqW5qRKIetrXfnBtEtpT_Jg4--fEBjzkexT5Fw&s=10",
+      },
     ],
   }),
   shellComponent: RootShell,
@@ -106,7 +107,7 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <Scripts />
       </body>
@@ -120,8 +121,6 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <Chrome />
-        <PageTransition />
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
       </AuthProvider>

@@ -2,7 +2,6 @@ import { Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { scenes, type World } from "@/content/site";
-import { Footer } from "@/components/lux/Footer";
 import { useCinematicMotion } from "./motion";
 
 /**
@@ -50,8 +49,6 @@ export function Closing({ next }: { next: World["next"] }) {
             <span className="mx-auto mt-6 block h-px w-24 origin-center scale-x-50 bg-gold transition-transform duration-700 group-hover:scale-x-100" />
           </Link>
         </motion.div>
-
-        <Footer overlay />
       </div>
     </section>
   );

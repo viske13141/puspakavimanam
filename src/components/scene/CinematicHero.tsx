@@ -44,8 +44,8 @@ export function CinematicHero({ image, eyebrow, headline, sub, caps = false, qui
           style={{ scale, y: imgY }}
           className="absolute inset-0 h-full w-full object-cover will-change-transform"
         />
-        <motion.div style={{ opacity: dim }} className="absolute inset-0 bg-obsidian" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,var(--obsidian)_110%)]" />
+        <motion.div style={{ opacity: dim }} className="absolute inset-0 bg-[#102030]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,#102030_110%)]" />
 
         <motion.div style={{ y: titleY, opacity: titleO, filter: blur }} className="absolute inset-0 px-6">
           <div className="mx-auto flex h-full max-w-[1500px] flex-col items-center justify-center gap-8 md:flex-row md:justify-between">
@@ -54,7 +54,7 @@ export function CinematicHero({ image, eyebrow, headline, sub, caps = false, qui
                 initial={reduced ? false : { opacity: 0, letterSpacing: "0.7em" }}
                 animate={{ opacity: 1, letterSpacing: "0.42em" }}
                 transition={{ duration: 1.8, ease, delay: 0.3 }}
-                className="whisper text-champagne/80"
+                className="whisper text-[#D6BA7E]"
               >
                 {eyebrow}
               </motion.p>
@@ -66,7 +66,7 @@ export function CinematicHero({ image, eyebrow, headline, sub, caps = false, qui
                 {headline.split("\n").map((line, i) => (
                   <motion.span
                     key={i}
-                    className="block"
+                    className="block text-white"
                     initial={reduced ? false : { opacity: 0, y: 40, filter: "blur(8px)" }}
                     animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{ duration: 1.6, ease, delay: 0.6 + i * 0.18 }}
@@ -79,7 +79,7 @@ export function CinematicHero({ image, eyebrow, headline, sub, caps = false, qui
                 initial={reduced ? false : { opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.6, delay: 1.4 }}
-                className="mt-8 max-w-md font-serif text-xl italic font-light text-ivory/70 md:text-2xl"
+                className="mt-8 max-w-md font-serif text-xl italic font-light text-white/80 md:text-2xl"
               >
                 {sub}
               </motion.p>

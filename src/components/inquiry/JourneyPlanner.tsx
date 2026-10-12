@@ -10,6 +10,8 @@ import { InquiryProgress } from "./InquiryProgress";
 import { InquiryStep } from "./InquiryStep";
 import { supabase } from "@/integrations/supabase/client";
 import { type Service } from "./VoiceConcierge";
+import { dashboardForRole, useAuth } from "@/lib/auth";
+import { saveAircraftSelection, readAircraftSelection } from "@/lib/aircraft-booking-service";
 
 const STORAGE_KEY = "hj_home_draft";
 type Draft = { service: Service | null; travellers: number; budget: number; currency: string };
@@ -20,6 +22,7 @@ type AuthMode = "choose" | "login" | "register";
 function EmbeddedJourneyCard() {
   const { reduced } = useCinematicMotion();
   const navigate = useNavigate();
+  const { user, role } = useAuth();
   const [step, setStep] = useState(0);
   const [service, setService] = useState<Service | null>(null);
   const [travellers, setTravellers] = useState(2);
@@ -59,6 +62,17 @@ function EmbeddedJourneyCard() {
   const [acSelected, setAcSelected] = useState<string | null>(null);
 
   useEffect(() => {
+    const selection = readAircraftSelection();
+    if (!selection) return;
+    setService("AVIATION");
+    setAviationKind(selection.aircraft_type);
+    setTravellers(selection.passenger_count);
+    setBudget(selection.budget);
+    setCurrency(selection.currency);
+    setStep(3);
+  }, []);
+
+  useEffect(() => {
     if (aviationKind) {
       void supabase.from("aircraft").select("id,kind,model,capacity").eq("kind", aviationKind).order("model")
         .then(({ data }) => setDbAircraft(data ?? []));
@@ -79,9 +93,41 @@ function EmbeddedJourneyCard() {
   const ct = reduced ? { duration: 0 } : { duration: 0.55, ease };
 
   const next = () => {
+    setAuthError("");
     if (step === 0 && !service) return;
     if (step === 1 && service === "AVIATION" && !aviationKind) return;
+    if (step === 2 && service === "AVIATION" && acSelected) {
+      const capacity = Number.parseInt(dbAircraft.find((aircraft) => aircraft.id === acSelected)?.capacity ?? "", 10);
+      if (Number.isFinite(capacity) && travellers > capacity) {
+        setAuthError(`This aircraft accommodates up to ${capacity} passengers.`);
+        return;
+      }
+    }
     if (step < stepLabels.length - 1) { setStep((v) => v + 1); return; }
+    if (service === "AVIATION") {
+      if (!aviationKind || !Number.isInteger(travellers) || travellers < 1 || budget <= 0) return;
+      try {
+        const selectedModel = dbAircraft.find((aircraft) => aircraft.id === acSelected)?.model;
+        saveAircraftSelection({
+          aircraft_type: aviationKind,
+          passenger_count: travellers,
+          budget,
+          currency,
+          ...(selectedModel ? { aircraft_preference: selectedModel } : {}),
+        });
+      } catch {
+        setAuthError("Unable to save your flight selection in this browser. Check available storage and try again.");
+        return;
+      }
+      if (!user) {
+        void navigate({ to: "/login" });
+      } else if (role && role !== "CUSTOMER") {
+        void navigate({ to: dashboardForRole(role) });
+      } else {
+        void navigate({ to: "/customer/flight-booking" });
+      }
+      return;
+    }
     saveDraft({ service, travellers, budget, currency });
     setShowAuth(true);
   };
@@ -124,6 +170,10 @@ function EmbeddedJourneyCard() {
   async function handleBookingSubmit(e: FormEvent) {
     e.preventDefault();
     setBError("");
+    if (service === "AVIATION") {
+      next();
+      return;
+    }
     if (!bName.trim()) return setBError("Enter your full name.");
     if (!bMobile.trim()) return setBError("Enter your mobile number.");
     if (!bEmail.trim()) return setBError("Enter your email.");
@@ -189,10 +239,11 @@ function EmbeddedJourneyCard() {
           ))}
         </div>
         <div className="border-b border-ivory/10 py-3 text-center text-[0.6rem] tracking-[0.12em] text-ivory/40">
-          SUBSCRIPTION = BOOK FLIGHTS · CREDITS = SEND ENQUIRY
+          {service === "AVIATION" ? "CHARTER REQUEST · AIRCRAFT AVAILABILITY SUBJECT TO CONFIRMATION" : "SUBSCRIPTION = BOOK FLIGHTS · CREDITS = SEND ENQUIRY"}
         </div>
 
         <div className="relative flex min-h-0 flex-1 flex-col">
+          {authError && !showAuth && <p role="alert" className="mt-3 border border-red-300/30 px-3 py-2 text-xs text-red-100">{authError}</p>}
           <AnimatePresence mode="wait" initial={false}>
             <motion.div key={step}
               initial={reduced ? false : { opacity: 0, x: 18, filter: "blur(8px)" }}
@@ -247,7 +298,7 @@ function EmbeddedJourneyCard() {
                           ))}
                           {dbAircraft.length === 0 && <p className="py-4 text-center text-xs text-ivory/30 italic">No {aviationKind}s in fleet yet.</p>}
                         </div>
-                        {acSelected && <p className="whisper text-[0.6rem] text-champagne border-t border-ivory/10 pt-2">SELECTED: {dbAircraft.find(a => a.id === acSelected)?.model}</p>}
+                          {acSelected ? <p className="whisper text-[0.6rem] text-champagne border-t border-ivory/10 pt-2">SELECTED: {dbAircraft.find(a => a.id === acSelected)?.model}</p> : <p className="text-xs text-ivory/35">Aircraft preference is optional; our team will confirm availability.</p>}
                       </div>
                     )}
                   </div>
@@ -263,15 +314,15 @@ function EmbeddedJourneyCard() {
                 )}
                 {((step === 2 && service !== "AVIATION") || (step === 3 && service === "AVIATION")) && (
                   <div className="pt-3">
-                    <div className="text-center font-serif text-4xl font-light text-ivory">${budget.toLocaleString()}</div>
+                    <div className="text-center font-serif text-4xl font-light text-ivory">{currency} {budget.toLocaleString()}</div>
                     <input type="range" min="10000" max="150000" step="5000" value={budget}
                       onChange={(e) => setBudget(Number(e.target.value))}
                       className="mt-10 h-1 w-full cursor-pointer appearance-none accent-champagne"
                       style={{ background: `linear-gradient(90deg,oklch(0.72 0.1 80) ${((budget - 10000) / 140000) * 100}%,oklch(0.94 0.014 85/0.18) ${((budget - 10000) / 140000) * 100}%)` }}
                     />
-                    <div className="mt-3 flex justify-between whisper text-ivory/35"><span>$10,000</span><span>$150,000</span></div>
+                    <div className="mt-3 flex justify-between whisper text-ivory/35"><span>{currency} 10,000</span><span>{currency} 150,000</span></div>
                     <div className="mt-4 flex justify-center gap-2">
-                      {(["EUR", "USD", "GBP", "AED"] as const).map((c) => (
+                      {(["EUR", "USD", "GBP", "AED", "INR"] as const).map((c) => (
                         <button key={c} type="button" onClick={() => setCurrency(c)}
                           className={`border px-3 py-1 whisper text-[0.55rem] transition-colors ${currency === c ? "border-champagne text-champagne" : "border-ivory/20 text-ivory/40 hover:border-ivory/50"}`}>{c}</button>
                       ))}
@@ -286,9 +337,9 @@ function EmbeddedJourneyCard() {
         <div className="flex items-center justify-between border-t border-ivory/10 pt-4">
           <button type="button" onClick={back} disabled={step === 0}
             className="whisper text-ivory/55 transition-colors hover:text-champagne disabled:invisible">← BACK</button>
-          <button type="button" onClick={next} disabled={(step === 0 && !service) || (step === 1 && service === "AVIATION" && (!aviationKind || !acSelected))}
+          <button type="button" onClick={next} disabled={(step === 0 && !service) || (step === 1 && service === "AVIATION" && !aviationKind)}
             className="group inline-flex items-center gap-3 whisper text-champagne transition-colors hover:text-ivory disabled:opacity-40">
-            <span>{step === stepLabels.length - 1 ? "LOGIN TO CONTINUE" : "NEXT"}</span>
+            <span>{step === stepLabels.length - 1 ? service === "AVIATION" ? "CONTINUE BOOKING" : "LOGIN TO CONTINUE" : "NEXT"}</span>
             <span className="relative block h-px w-10 overflow-hidden bg-gold/50">
               <span className="absolute inset-0 origin-left scale-x-0 bg-ivory transition-transform duration-500 group-hover:scale-x-100" />
             </span>

@@ -13,12 +13,15 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AviationRouteImport } from './routes/aviation'
 import { Route as ConciergeRouteImport } from './routes/concierge'
+import { Route as CrmRouteImport } from './routes/crm'
 import { Route as DestinationsRouteImport } from './routes/destinations'
 import { Route as ExperiencesRouteImport } from './routes/experiences'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as MembershipRouteImport } from './routes/membership'
 import { Route as MobilityRouteImport } from './routes/mobility'
+import { Route as OperationsRouteImport } from './routes/operations'
+import { Route as OperatorRouteImport } from './routes/operator'
 import { Route as PrivateRouteImport } from './routes/private'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as RequestAccessRouteImport } from './routes/request-access'
@@ -34,6 +37,7 @@ import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
+import { Route as AdminOperationsTeamRouteImport } from './routes/admin.operations-team'
 import { Route as AdminOperatorsRouteImport } from './routes/admin.operators'
 import { Route as AdminPricingRouteImport } from './routes/admin.pricing'
 import { Route as AdminQuotesRouteImport } from './routes/admin.quotes'
@@ -43,16 +47,81 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminSupportRouteImport } from './routes/admin.support'
 import { Route as AdminVoiceRouteImport } from './routes/admin.voice'
 import { Route as AdminYachtsRouteImport } from './routes/admin.yachts'
+import { Route as CrmIndexRouteImport } from './routes/crm.index'
+import { Route as CrmAnalyticsRouteImport } from './routes/crm.analytics'
+import { Route as CrmAssignmentsRouteImport } from './routes/crm.assignments'
+import { Route as CrmAuditLogsRouteImport } from './routes/crm.audit-logs'
+import { Route as CrmBookingsRouteImport } from './routes/crm.bookings'
+import { Route as CrmCampaignsRouteImport } from './routes/crm.campaigns'
+import { Route as CrmConversationsRouteImport } from './routes/crm.conversations'
+import { Route as CrmCustomersRouteImport } from './routes/crm.customers'
+import { Route as CrmDashboardRouteImport } from './routes/crm.dashboard'
+import { Route as CrmDuplicatesRouteImport } from './routes/crm.duplicates'
+import { Route as CrmEmailSmsRouteImport } from './routes/crm.email-sms'
+import { Route as CrmEnquiriesRouteImport } from './routes/crm.enquiries'
+import { Route as CrmExportsRouteImport } from './routes/crm.exports'
+import { Route as CrmFollowupsRouteImport } from './routes/crm.followups'
+import { Route as CrmInboxRouteImport } from './routes/crm.inbox'
+import { Route as CrmIntegrationsRouteImport } from './routes/crm.integrations'
+import { Route as CrmLeadsRouteImport } from './routes/crm.leads'
+import { Route as CrmPerformanceRouteImport } from './routes/crm.performance'
+import { Route as CrmPipelineRouteImport } from './routes/crm.pipeline'
+import { Route as CrmQuotationsRouteImport } from './routes/crm.quotations'
+import { Route as CrmReportsRouteImport } from './routes/crm.reports'
+import { Route as CrmSettingsRouteImport } from './routes/crm.settings'
+import { Route as CrmSocialLeadsRouteImport } from './routes/crm.social-leads'
+import { Route as CrmTasksRouteImport } from './routes/crm.tasks'
+import { Route as CrmWebsiteLeadsRouteImport } from './routes/crm.website-leads'
+import { Route as CrmWhatsappLeadsRouteImport } from './routes/crm.whatsapp-leads'
 import { Route as CustomerBookingsRouteImport } from './routes/customer.bookings'
 import { Route as CustomerDashboardRouteImport } from './routes/customer.dashboard'
 import { Route as CustomerDocumentsRouteImport } from './routes/customer.documents'
 import { Route as CustomerEventsRouteImport } from './routes/customer.events'
+import { Route as CustomerFlightBookingRouteImport } from './routes/customer.flight-booking'
 import { Route as CustomerNotificationsRouteImport } from './routes/customer.notifications'
 import { Route as CustomerProfileRouteImport } from './routes/customer.profile'
 import { Route as CustomerQuotesRouteImport } from './routes/customer.quotes'
 import { Route as CustomerRequestsRouteImport } from './routes/customer.requests'
 import { Route as CustomerSubscriptionsRouteImport } from './routes/customer.subscriptions'
 import { Route as CustomerSupportRouteImport } from './routes/customer.support'
+import { Route as OperationsAircraftRouteImport } from './routes/operations.aircraft'
+import { Route as OperationsAssignmentsRouteImport } from './routes/operations.assignments'
+import { Route as OperationsBookingsRouteImport } from './routes/operations.bookings'
+import { Route as OperationsCheckinRouteImport } from './routes/operations.checkin'
+import { Route as OperationsComplianceRouteImport } from './routes/operations.compliance'
+import { Route as OperationsCrewRouteImport } from './routes/operations.crew'
+import { Route as OperationsDashboardRouteImport } from './routes/operations.dashboard'
+import { Route as OperationsDocumentsRouteImport } from './routes/operations.documents'
+import { Route as OperationsGroundHandlingRouteImport } from './routes/operations.ground-handling'
+import { Route as OperationsHemsRouteImport } from './routes/operations.hems'
+import { Route as OperationsIncidentsRouteImport } from './routes/operations.incidents'
+import { Route as OperationsLandingSitesRouteImport } from './routes/operations.landing-sites'
+import { Route as OperationsMonitoringRouteImport } from './routes/operations.monitoring'
+import { Route as OperationsNotificationsRouteImport } from './routes/operations.notifications'
+import { Route as OperationsOperatorsRouteImport } from './routes/operations.operators'
+import { Route as OperationsPassengersRouteImport } from './routes/operations.passengers'
+import { Route as OperationsPreparationRouteImport } from './routes/operations.preparation'
+import { Route as OperationsProfileRouteImport } from './routes/operations.profile'
+import { Route as OperationsReportsRouteImport } from './routes/operations.reports'
+import { Route as OperationsScheduleRouteImport } from './routes/operations.schedule'
+import { Route as OperatorAircraftRouteImport } from './routes/operator.aircraft'
+import { Route as OperatorAvailabilityRouteImport } from './routes/operator.availability'
+import { Route as OperatorBookingsRouteImport } from './routes/operator.bookings'
+import { Route as OperatorComplianceRouteImport } from './routes/operator.compliance'
+import { Route as OperatorCrewRouteImport } from './routes/operator.crew'
+import { Route as OperatorDashboardRouteImport } from './routes/operator.dashboard'
+import { Route as OperatorFlightsRouteImport } from './routes/operator.flights'
+import { Route as OperatorGroundRouteImport } from './routes/operator.ground'
+import { Route as OperatorIncidentsRouteImport } from './routes/operator.incidents'
+import { Route as OperatorMessagesRouteImport } from './routes/operator.messages'
+import { Route as OperatorNotificationsRouteImport } from './routes/operator.notifications'
+import { Route as OperatorPassengersRouteImport } from './routes/operator.passengers'
+import { Route as OperatorPreparationRouteImport } from './routes/operator.preparation'
+import { Route as OperatorProfileRouteImport } from './routes/operator.profile'
+import { Route as OperatorQuotesRouteImport } from './routes/operator.quotes'
+import { Route as OperatorReportsRouteImport } from './routes/operator.reports'
+import { Route as OperatorRequestsRouteImport } from './routes/operator.requests'
+import { Route as OperatorScheduleRouteImport } from './routes/operator.schedule'
 import { Route as SalesAviationRouteImport } from './routes/sales.aviation'
 import { Route as SalesBookingsRouteImport } from './routes/sales.bookings'
 import { Route as SalesCustomersRouteImport } from './routes/sales.customers'
@@ -88,6 +157,11 @@ const ConciergeRoute = ConciergeRouteImport.update({
   path: '/concierge',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrmRoute = CrmRouteImport.update({
+  id: '/crm',
+  path: '/crm',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DestinationsRoute = DestinationsRouteImport.update({
   id: '/destinations',
   path: '/destinations',
@@ -116,6 +190,16 @@ const MembershipRoute = MembershipRouteImport.update({
 const MobilityRoute = MobilityRouteImport.update({
   id: '/mobility',
   path: '/mobility',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperationsRoute = OperationsRouteImport.update({
+  id: '/operations',
+  path: '/operations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperatorRoute = OperatorRouteImport.update({
+  id: '/operator',
+  path: '/operator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivateRoute = PrivateRouteImport.update({
@@ -193,6 +277,11 @@ const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
   path: '/admin/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminOperationsTeamRoute = AdminOperationsTeamRouteImport.update({
+  id: '/admin/operations-team',
+  path: '/admin/operations-team',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminOperatorsRoute = AdminOperatorsRouteImport.update({
   id: '/admin/operators',
   path: '/admin/operators',
@@ -238,6 +327,136 @@ const AdminYachtsRoute = AdminYachtsRouteImport.update({
   path: '/admin/yachts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CrmIndexRoute = CrmIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmAnalyticsRoute = CrmAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmAssignmentsRoute = CrmAssignmentsRouteImport.update({
+  id: '/assignments',
+  path: '/assignments',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmAuditLogsRoute = CrmAuditLogsRouteImport.update({
+  id: '/audit-logs',
+  path: '/audit-logs',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmBookingsRoute = CrmBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmCampaignsRoute = CrmCampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmConversationsRoute = CrmConversationsRouteImport.update({
+  id: '/conversations',
+  path: '/conversations',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmCustomersRoute = CrmCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmDashboardRoute = CrmDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmDuplicatesRoute = CrmDuplicatesRouteImport.update({
+  id: '/duplicates',
+  path: '/duplicates',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmEmailSmsRoute = CrmEmailSmsRouteImport.update({
+  id: '/email-sms',
+  path: '/email-sms',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmEnquiriesRoute = CrmEnquiriesRouteImport.update({
+  id: '/enquiries',
+  path: '/enquiries',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmExportsRoute = CrmExportsRouteImport.update({
+  id: '/exports',
+  path: '/exports',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmFollowupsRoute = CrmFollowupsRouteImport.update({
+  id: '/followups',
+  path: '/followups',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmInboxRoute = CrmInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmIntegrationsRoute = CrmIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmLeadsRoute = CrmLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmPerformanceRoute = CrmPerformanceRouteImport.update({
+  id: '/performance',
+  path: '/performance',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmPipelineRoute = CrmPipelineRouteImport.update({
+  id: '/pipeline',
+  path: '/pipeline',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmQuotationsRoute = CrmQuotationsRouteImport.update({
+  id: '/quotations',
+  path: '/quotations',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmReportsRoute = CrmReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmSettingsRoute = CrmSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmSocialLeadsRoute = CrmSocialLeadsRouteImport.update({
+  id: '/social-leads',
+  path: '/social-leads',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmTasksRoute = CrmTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmWebsiteLeadsRoute = CrmWebsiteLeadsRouteImport.update({
+  id: '/website-leads',
+  path: '/website-leads',
+  getParentRoute: () => CrmRoute,
+} as any)
+const CrmWhatsappLeadsRoute = CrmWhatsappLeadsRouteImport.update({
+  id: '/whatsapp-leads',
+  path: '/whatsapp-leads',
+  getParentRoute: () => CrmRoute,
+} as any)
 const CustomerBookingsRoute = CustomerBookingsRouteImport.update({
   id: '/customer/bookings',
   path: '/customer/bookings',
@@ -256,6 +475,11 @@ const CustomerDocumentsRoute = CustomerDocumentsRouteImport.update({
 const CustomerEventsRoute = CustomerEventsRouteImport.update({
   id: '/customer/events',
   path: '/customer/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomerFlightBookingRoute = CustomerFlightBookingRouteImport.update({
+  id: '/customer/flight-booking',
+  path: '/customer/flight-booking',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomerNotificationsRoute = CustomerNotificationsRouteImport.update({
@@ -287,6 +511,197 @@ const CustomerSupportRoute = CustomerSupportRouteImport.update({
   id: '/customer/support',
   path: '/customer/support',
   getParentRoute: () => rootRouteImport,
+} as any)
+const OperationsAircraftRoute = OperationsAircraftRouteImport.update({
+  id: '/aircraft',
+  path: '/aircraft',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsAssignmentsRoute = OperationsAssignmentsRouteImport.update({
+  id: '/assignments',
+  path: '/assignments',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsBookingsRoute = OperationsBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsCheckinRoute = OperationsCheckinRouteImport.update({
+  id: '/checkin',
+  path: '/checkin',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsComplianceRoute = OperationsComplianceRouteImport.update({
+  id: '/compliance',
+  path: '/compliance',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsCrewRoute = OperationsCrewRouteImport.update({
+  id: '/crew',
+  path: '/crew',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsDashboardRoute = OperationsDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsDocumentsRoute = OperationsDocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsGroundHandlingRoute =
+  OperationsGroundHandlingRouteImport.update({
+    id: '/ground-handling',
+    path: '/ground-handling',
+    getParentRoute: () => OperationsRoute,
+  } as any)
+const OperationsHemsRoute = OperationsHemsRouteImport.update({
+  id: '/hems',
+  path: '/hems',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsIncidentsRoute = OperationsIncidentsRouteImport.update({
+  id: '/incidents',
+  path: '/incidents',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsLandingSitesRoute = OperationsLandingSitesRouteImport.update({
+  id: '/landing-sites',
+  path: '/landing-sites',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsMonitoringRoute = OperationsMonitoringRouteImport.update({
+  id: '/monitoring',
+  path: '/monitoring',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsNotificationsRoute = OperationsNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsOperatorsRoute = OperationsOperatorsRouteImport.update({
+  id: '/operators',
+  path: '/operators',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsPassengersRoute = OperationsPassengersRouteImport.update({
+  id: '/passengers',
+  path: '/passengers',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsPreparationRoute = OperationsPreparationRouteImport.update({
+  id: '/preparation',
+  path: '/preparation',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsProfileRoute = OperationsProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsReportsRoute = OperationsReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperationsScheduleRoute = OperationsScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => OperationsRoute,
+} as any)
+const OperatorAircraftRoute = OperatorAircraftRouteImport.update({
+  id: '/aircraft',
+  path: '/aircraft',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorAvailabilityRoute = OperatorAvailabilityRouteImport.update({
+  id: '/availability',
+  path: '/availability',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorBookingsRoute = OperatorBookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorComplianceRoute = OperatorComplianceRouteImport.update({
+  id: '/compliance',
+  path: '/compliance',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorCrewRoute = OperatorCrewRouteImport.update({
+  id: '/crew',
+  path: '/crew',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorDashboardRoute = OperatorDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorFlightsRoute = OperatorFlightsRouteImport.update({
+  id: '/flights',
+  path: '/flights',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorGroundRoute = OperatorGroundRouteImport.update({
+  id: '/ground',
+  path: '/ground',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorIncidentsRoute = OperatorIncidentsRouteImport.update({
+  id: '/incidents',
+  path: '/incidents',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorMessagesRoute = OperatorMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorNotificationsRoute = OperatorNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorPassengersRoute = OperatorPassengersRouteImport.update({
+  id: '/passengers',
+  path: '/passengers',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorPreparationRoute = OperatorPreparationRouteImport.update({
+  id: '/preparation',
+  path: '/preparation',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorProfileRoute = OperatorProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorQuotesRoute = OperatorQuotesRouteImport.update({
+  id: '/quotes',
+  path: '/quotes',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorReportsRoute = OperatorReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorRequestsRoute = OperatorRequestsRouteImport.update({
+  id: '/requests',
+  path: '/requests',
+  getParentRoute: () => OperatorRoute,
+} as any)
+const OperatorScheduleRoute = OperatorScheduleRouteImport.update({
+  id: '/schedule',
+  path: '/schedule',
+  getParentRoute: () => OperatorRoute,
 } as any)
 const SalesAviationRoute = SalesAviationRouteImport.update({
   id: '/sales/aviation',
@@ -364,12 +779,15 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/aviation': typeof AviationRoute
   '/concierge': typeof ConciergeRoute
+  '/crm': typeof CrmRouteWithChildren
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
   '/mobility': typeof MobilityRoute
+  '/operations': typeof OperationsRouteWithChildren
+  '/operator': typeof OperatorRouteWithChildren
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
   '/request-access': typeof RequestAccessRoute
@@ -385,6 +803,7 @@ export interface FileRoutesByFullPath {
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/operations-team': typeof AdminOperationsTeamRoute
   '/admin/operators': typeof AdminOperatorsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/quotes': typeof AdminQuotesRoute
@@ -394,16 +813,80 @@ export interface FileRoutesByFullPath {
   '/admin/support': typeof AdminSupportRoute
   '/admin/voice': typeof AdminVoiceRoute
   '/admin/yachts': typeof AdminYachtsRoute
+  '/crm/analytics': typeof CrmAnalyticsRoute
+  '/crm/assignments': typeof CrmAssignmentsRoute
+  '/crm/audit-logs': typeof CrmAuditLogsRoute
+  '/crm/bookings': typeof CrmBookingsRoute
+  '/crm/campaigns': typeof CrmCampaignsRoute
+  '/crm/conversations': typeof CrmConversationsRoute
+  '/crm/customers': typeof CrmCustomersRoute
+  '/crm/dashboard': typeof CrmDashboardRoute
+  '/crm/duplicates': typeof CrmDuplicatesRoute
+  '/crm/email-sms': typeof CrmEmailSmsRoute
+  '/crm/enquiries': typeof CrmEnquiriesRoute
+  '/crm/exports': typeof CrmExportsRoute
+  '/crm/followups': typeof CrmFollowupsRoute
+  '/crm/inbox': typeof CrmInboxRoute
+  '/crm/integrations': typeof CrmIntegrationsRoute
+  '/crm/leads': typeof CrmLeadsRoute
+  '/crm/performance': typeof CrmPerformanceRoute
+  '/crm/pipeline': typeof CrmPipelineRoute
+  '/crm/quotations': typeof CrmQuotationsRoute
+  '/crm/reports': typeof CrmReportsRoute
+  '/crm/settings': typeof CrmSettingsRoute
+  '/crm/social-leads': typeof CrmSocialLeadsRoute
+  '/crm/tasks': typeof CrmTasksRoute
+  '/crm/website-leads': typeof CrmWebsiteLeadsRoute
+  '/crm/whatsapp-leads': typeof CrmWhatsappLeadsRoute
   '/customer/bookings': typeof CustomerBookingsRoute
   '/customer/dashboard': typeof CustomerDashboardRoute
   '/customer/documents': typeof CustomerDocumentsRoute
   '/customer/events': typeof CustomerEventsRoute
+  '/customer/flight-booking': typeof CustomerFlightBookingRoute
   '/customer/notifications': typeof CustomerNotificationsRoute
   '/customer/profile': typeof CustomerProfileRoute
   '/customer/quotes': typeof CustomerQuotesRoute
   '/customer/requests': typeof CustomerRequestsRouteWithChildren
   '/customer/subscriptions': typeof CustomerSubscriptionsRoute
   '/customer/support': typeof CustomerSupportRoute
+  '/operations/aircraft': typeof OperationsAircraftRoute
+  '/operations/assignments': typeof OperationsAssignmentsRoute
+  '/operations/bookings': typeof OperationsBookingsRoute
+  '/operations/checkin': typeof OperationsCheckinRoute
+  '/operations/compliance': typeof OperationsComplianceRoute
+  '/operations/crew': typeof OperationsCrewRoute
+  '/operations/dashboard': typeof OperationsDashboardRoute
+  '/operations/documents': typeof OperationsDocumentsRoute
+  '/operations/ground-handling': typeof OperationsGroundHandlingRoute
+  '/operations/hems': typeof OperationsHemsRoute
+  '/operations/incidents': typeof OperationsIncidentsRoute
+  '/operations/landing-sites': typeof OperationsLandingSitesRoute
+  '/operations/monitoring': typeof OperationsMonitoringRoute
+  '/operations/notifications': typeof OperationsNotificationsRoute
+  '/operations/operators': typeof OperationsOperatorsRoute
+  '/operations/passengers': typeof OperationsPassengersRoute
+  '/operations/preparation': typeof OperationsPreparationRoute
+  '/operations/profile': typeof OperationsProfileRoute
+  '/operations/reports': typeof OperationsReportsRoute
+  '/operations/schedule': typeof OperationsScheduleRoute
+  '/operator/aircraft': typeof OperatorAircraftRoute
+  '/operator/availability': typeof OperatorAvailabilityRoute
+  '/operator/bookings': typeof OperatorBookingsRoute
+  '/operator/compliance': typeof OperatorComplianceRoute
+  '/operator/crew': typeof OperatorCrewRoute
+  '/operator/dashboard': typeof OperatorDashboardRoute
+  '/operator/flights': typeof OperatorFlightsRoute
+  '/operator/ground': typeof OperatorGroundRoute
+  '/operator/incidents': typeof OperatorIncidentsRoute
+  '/operator/messages': typeof OperatorMessagesRoute
+  '/operator/notifications': typeof OperatorNotificationsRoute
+  '/operator/passengers': typeof OperatorPassengersRoute
+  '/operator/preparation': typeof OperatorPreparationRoute
+  '/operator/profile': typeof OperatorProfileRoute
+  '/operator/quotes': typeof OperatorQuotesRoute
+  '/operator/reports': typeof OperatorReportsRoute
+  '/operator/requests': typeof OperatorRequestsRoute
+  '/operator/schedule': typeof OperatorScheduleRoute
   '/sales/aviation': typeof SalesAviationRoute
   '/sales/bookings': typeof SalesBookingsRoute
   '/sales/customers': typeof SalesCustomersRoute
@@ -417,6 +900,7 @@ export interface FileRoutesByFullPath {
   '/sales/requests': typeof SalesRequestsRoute
   '/sales/support': typeof SalesSupportRoute
   '/sales/yachts': typeof SalesYachtsRoute
+  '/crm/': typeof CrmIndexRoute
   '/customer/requests/new': typeof CustomerRequestsNewRoute
 }
 export interface FileRoutesByTo {
@@ -430,6 +914,8 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
   '/mobility': typeof MobilityRoute
+  '/operations': typeof OperationsRouteWithChildren
+  '/operator': typeof OperatorRouteWithChildren
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
   '/request-access': typeof RequestAccessRoute
@@ -445,6 +931,7 @@ export interface FileRoutesByTo {
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/operations-team': typeof AdminOperationsTeamRoute
   '/admin/operators': typeof AdminOperatorsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/quotes': typeof AdminQuotesRoute
@@ -454,16 +941,80 @@ export interface FileRoutesByTo {
   '/admin/support': typeof AdminSupportRoute
   '/admin/voice': typeof AdminVoiceRoute
   '/admin/yachts': typeof AdminYachtsRoute
+  '/crm/analytics': typeof CrmAnalyticsRoute
+  '/crm/assignments': typeof CrmAssignmentsRoute
+  '/crm/audit-logs': typeof CrmAuditLogsRoute
+  '/crm/bookings': typeof CrmBookingsRoute
+  '/crm/campaigns': typeof CrmCampaignsRoute
+  '/crm/conversations': typeof CrmConversationsRoute
+  '/crm/customers': typeof CrmCustomersRoute
+  '/crm/dashboard': typeof CrmDashboardRoute
+  '/crm/duplicates': typeof CrmDuplicatesRoute
+  '/crm/email-sms': typeof CrmEmailSmsRoute
+  '/crm/enquiries': typeof CrmEnquiriesRoute
+  '/crm/exports': typeof CrmExportsRoute
+  '/crm/followups': typeof CrmFollowupsRoute
+  '/crm/inbox': typeof CrmInboxRoute
+  '/crm/integrations': typeof CrmIntegrationsRoute
+  '/crm/leads': typeof CrmLeadsRoute
+  '/crm/performance': typeof CrmPerformanceRoute
+  '/crm/pipeline': typeof CrmPipelineRoute
+  '/crm/quotations': typeof CrmQuotationsRoute
+  '/crm/reports': typeof CrmReportsRoute
+  '/crm/settings': typeof CrmSettingsRoute
+  '/crm/social-leads': typeof CrmSocialLeadsRoute
+  '/crm/tasks': typeof CrmTasksRoute
+  '/crm/website-leads': typeof CrmWebsiteLeadsRoute
+  '/crm/whatsapp-leads': typeof CrmWhatsappLeadsRoute
   '/customer/bookings': typeof CustomerBookingsRoute
   '/customer/dashboard': typeof CustomerDashboardRoute
   '/customer/documents': typeof CustomerDocumentsRoute
   '/customer/events': typeof CustomerEventsRoute
+  '/customer/flight-booking': typeof CustomerFlightBookingRoute
   '/customer/notifications': typeof CustomerNotificationsRoute
   '/customer/profile': typeof CustomerProfileRoute
   '/customer/quotes': typeof CustomerQuotesRoute
   '/customer/requests': typeof CustomerRequestsRouteWithChildren
   '/customer/subscriptions': typeof CustomerSubscriptionsRoute
   '/customer/support': typeof CustomerSupportRoute
+  '/operations/aircraft': typeof OperationsAircraftRoute
+  '/operations/assignments': typeof OperationsAssignmentsRoute
+  '/operations/bookings': typeof OperationsBookingsRoute
+  '/operations/checkin': typeof OperationsCheckinRoute
+  '/operations/compliance': typeof OperationsComplianceRoute
+  '/operations/crew': typeof OperationsCrewRoute
+  '/operations/dashboard': typeof OperationsDashboardRoute
+  '/operations/documents': typeof OperationsDocumentsRoute
+  '/operations/ground-handling': typeof OperationsGroundHandlingRoute
+  '/operations/hems': typeof OperationsHemsRoute
+  '/operations/incidents': typeof OperationsIncidentsRoute
+  '/operations/landing-sites': typeof OperationsLandingSitesRoute
+  '/operations/monitoring': typeof OperationsMonitoringRoute
+  '/operations/notifications': typeof OperationsNotificationsRoute
+  '/operations/operators': typeof OperationsOperatorsRoute
+  '/operations/passengers': typeof OperationsPassengersRoute
+  '/operations/preparation': typeof OperationsPreparationRoute
+  '/operations/profile': typeof OperationsProfileRoute
+  '/operations/reports': typeof OperationsReportsRoute
+  '/operations/schedule': typeof OperationsScheduleRoute
+  '/operator/aircraft': typeof OperatorAircraftRoute
+  '/operator/availability': typeof OperatorAvailabilityRoute
+  '/operator/bookings': typeof OperatorBookingsRoute
+  '/operator/compliance': typeof OperatorComplianceRoute
+  '/operator/crew': typeof OperatorCrewRoute
+  '/operator/dashboard': typeof OperatorDashboardRoute
+  '/operator/flights': typeof OperatorFlightsRoute
+  '/operator/ground': typeof OperatorGroundRoute
+  '/operator/incidents': typeof OperatorIncidentsRoute
+  '/operator/messages': typeof OperatorMessagesRoute
+  '/operator/notifications': typeof OperatorNotificationsRoute
+  '/operator/passengers': typeof OperatorPassengersRoute
+  '/operator/preparation': typeof OperatorPreparationRoute
+  '/operator/profile': typeof OperatorProfileRoute
+  '/operator/quotes': typeof OperatorQuotesRoute
+  '/operator/reports': typeof OperatorReportsRoute
+  '/operator/requests': typeof OperatorRequestsRoute
+  '/operator/schedule': typeof OperatorScheduleRoute
   '/sales/aviation': typeof SalesAviationRoute
   '/sales/bookings': typeof SalesBookingsRoute
   '/sales/customers': typeof SalesCustomersRoute
@@ -477,6 +1028,7 @@ export interface FileRoutesByTo {
   '/sales/requests': typeof SalesRequestsRoute
   '/sales/support': typeof SalesSupportRoute
   '/sales/yachts': typeof SalesYachtsRoute
+  '/crm': typeof CrmIndexRoute
   '/customer/requests/new': typeof CustomerRequestsNewRoute
 }
 export interface FileRoutesById {
@@ -485,12 +1037,15 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/aviation': typeof AviationRoute
   '/concierge': typeof ConciergeRoute
+  '/crm': typeof CrmRouteWithChildren
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
   '/membership': typeof MembershipRoute
   '/mobility': typeof MobilityRoute
+  '/operations': typeof OperationsRouteWithChildren
+  '/operator': typeof OperatorRouteWithChildren
   '/private': typeof PrivateRoute
   '/register': typeof RegisterRoute
   '/request-access': typeof RequestAccessRoute
@@ -506,6 +1061,7 @@ export interface FileRoutesById {
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/operations-team': typeof AdminOperationsTeamRoute
   '/admin/operators': typeof AdminOperatorsRoute
   '/admin/pricing': typeof AdminPricingRoute
   '/admin/quotes': typeof AdminQuotesRoute
@@ -515,16 +1071,80 @@ export interface FileRoutesById {
   '/admin/support': typeof AdminSupportRoute
   '/admin/voice': typeof AdminVoiceRoute
   '/admin/yachts': typeof AdminYachtsRoute
+  '/crm/analytics': typeof CrmAnalyticsRoute
+  '/crm/assignments': typeof CrmAssignmentsRoute
+  '/crm/audit-logs': typeof CrmAuditLogsRoute
+  '/crm/bookings': typeof CrmBookingsRoute
+  '/crm/campaigns': typeof CrmCampaignsRoute
+  '/crm/conversations': typeof CrmConversationsRoute
+  '/crm/customers': typeof CrmCustomersRoute
+  '/crm/dashboard': typeof CrmDashboardRoute
+  '/crm/duplicates': typeof CrmDuplicatesRoute
+  '/crm/email-sms': typeof CrmEmailSmsRoute
+  '/crm/enquiries': typeof CrmEnquiriesRoute
+  '/crm/exports': typeof CrmExportsRoute
+  '/crm/followups': typeof CrmFollowupsRoute
+  '/crm/inbox': typeof CrmInboxRoute
+  '/crm/integrations': typeof CrmIntegrationsRoute
+  '/crm/leads': typeof CrmLeadsRoute
+  '/crm/performance': typeof CrmPerformanceRoute
+  '/crm/pipeline': typeof CrmPipelineRoute
+  '/crm/quotations': typeof CrmQuotationsRoute
+  '/crm/reports': typeof CrmReportsRoute
+  '/crm/settings': typeof CrmSettingsRoute
+  '/crm/social-leads': typeof CrmSocialLeadsRoute
+  '/crm/tasks': typeof CrmTasksRoute
+  '/crm/website-leads': typeof CrmWebsiteLeadsRoute
+  '/crm/whatsapp-leads': typeof CrmWhatsappLeadsRoute
   '/customer/bookings': typeof CustomerBookingsRoute
   '/customer/dashboard': typeof CustomerDashboardRoute
   '/customer/documents': typeof CustomerDocumentsRoute
   '/customer/events': typeof CustomerEventsRoute
+  '/customer/flight-booking': typeof CustomerFlightBookingRoute
   '/customer/notifications': typeof CustomerNotificationsRoute
   '/customer/profile': typeof CustomerProfileRoute
   '/customer/quotes': typeof CustomerQuotesRoute
   '/customer/requests': typeof CustomerRequestsRouteWithChildren
   '/customer/subscriptions': typeof CustomerSubscriptionsRoute
   '/customer/support': typeof CustomerSupportRoute
+  '/operations/aircraft': typeof OperationsAircraftRoute
+  '/operations/assignments': typeof OperationsAssignmentsRoute
+  '/operations/bookings': typeof OperationsBookingsRoute
+  '/operations/checkin': typeof OperationsCheckinRoute
+  '/operations/compliance': typeof OperationsComplianceRoute
+  '/operations/crew': typeof OperationsCrewRoute
+  '/operations/dashboard': typeof OperationsDashboardRoute
+  '/operations/documents': typeof OperationsDocumentsRoute
+  '/operations/ground-handling': typeof OperationsGroundHandlingRoute
+  '/operations/hems': typeof OperationsHemsRoute
+  '/operations/incidents': typeof OperationsIncidentsRoute
+  '/operations/landing-sites': typeof OperationsLandingSitesRoute
+  '/operations/monitoring': typeof OperationsMonitoringRoute
+  '/operations/notifications': typeof OperationsNotificationsRoute
+  '/operations/operators': typeof OperationsOperatorsRoute
+  '/operations/passengers': typeof OperationsPassengersRoute
+  '/operations/preparation': typeof OperationsPreparationRoute
+  '/operations/profile': typeof OperationsProfileRoute
+  '/operations/reports': typeof OperationsReportsRoute
+  '/operations/schedule': typeof OperationsScheduleRoute
+  '/operator/aircraft': typeof OperatorAircraftRoute
+  '/operator/availability': typeof OperatorAvailabilityRoute
+  '/operator/bookings': typeof OperatorBookingsRoute
+  '/operator/compliance': typeof OperatorComplianceRoute
+  '/operator/crew': typeof OperatorCrewRoute
+  '/operator/dashboard': typeof OperatorDashboardRoute
+  '/operator/flights': typeof OperatorFlightsRoute
+  '/operator/ground': typeof OperatorGroundRoute
+  '/operator/incidents': typeof OperatorIncidentsRoute
+  '/operator/messages': typeof OperatorMessagesRoute
+  '/operator/notifications': typeof OperatorNotificationsRoute
+  '/operator/passengers': typeof OperatorPassengersRoute
+  '/operator/preparation': typeof OperatorPreparationRoute
+  '/operator/profile': typeof OperatorProfileRoute
+  '/operator/quotes': typeof OperatorQuotesRoute
+  '/operator/reports': typeof OperatorReportsRoute
+  '/operator/requests': typeof OperatorRequestsRoute
+  '/operator/schedule': typeof OperatorScheduleRoute
   '/sales/aviation': typeof SalesAviationRoute
   '/sales/bookings': typeof SalesBookingsRoute
   '/sales/customers': typeof SalesCustomersRoute
@@ -538,6 +1158,7 @@ export interface FileRoutesById {
   '/sales/requests': typeof SalesRequestsRoute
   '/sales/support': typeof SalesSupportRoute
   '/sales/yachts': typeof SalesYachtsRoute
+  '/crm/': typeof CrmIndexRoute
   '/customer/requests/new': typeof CustomerRequestsNewRoute
 }
 export interface FileRouteTypes {
@@ -547,12 +1168,15 @@ export interface FileRouteTypes {
     | '/about'
     | '/aviation'
     | '/concierge'
+    | '/crm'
     | '/destinations'
     | '/experiences'
     | '/forgot-password'
     | '/login'
     | '/membership'
     | '/mobility'
+    | '/operations'
+    | '/operator'
     | '/private'
     | '/register'
     | '/request-access'
@@ -568,6 +1192,7 @@ export interface FileRouteTypes {
     | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/notifications'
+    | '/admin/operations-team'
     | '/admin/operators'
     | '/admin/pricing'
     | '/admin/quotes'
@@ -577,16 +1202,80 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/voice'
     | '/admin/yachts'
+    | '/crm/analytics'
+    | '/crm/assignments'
+    | '/crm/audit-logs'
+    | '/crm/bookings'
+    | '/crm/campaigns'
+    | '/crm/conversations'
+    | '/crm/customers'
+    | '/crm/dashboard'
+    | '/crm/duplicates'
+    | '/crm/email-sms'
+    | '/crm/enquiries'
+    | '/crm/exports'
+    | '/crm/followups'
+    | '/crm/inbox'
+    | '/crm/integrations'
+    | '/crm/leads'
+    | '/crm/performance'
+    | '/crm/pipeline'
+    | '/crm/quotations'
+    | '/crm/reports'
+    | '/crm/settings'
+    | '/crm/social-leads'
+    | '/crm/tasks'
+    | '/crm/website-leads'
+    | '/crm/whatsapp-leads'
     | '/customer/bookings'
     | '/customer/dashboard'
     | '/customer/documents'
     | '/customer/events'
+    | '/customer/flight-booking'
     | '/customer/notifications'
     | '/customer/profile'
     | '/customer/quotes'
     | '/customer/requests'
     | '/customer/subscriptions'
     | '/customer/support'
+    | '/operations/aircraft'
+    | '/operations/assignments'
+    | '/operations/bookings'
+    | '/operations/checkin'
+    | '/operations/compliance'
+    | '/operations/crew'
+    | '/operations/dashboard'
+    | '/operations/documents'
+    | '/operations/ground-handling'
+    | '/operations/hems'
+    | '/operations/incidents'
+    | '/operations/landing-sites'
+    | '/operations/monitoring'
+    | '/operations/notifications'
+    | '/operations/operators'
+    | '/operations/passengers'
+    | '/operations/preparation'
+    | '/operations/profile'
+    | '/operations/reports'
+    | '/operations/schedule'
+    | '/operator/aircraft'
+    | '/operator/availability'
+    | '/operator/bookings'
+    | '/operator/compliance'
+    | '/operator/crew'
+    | '/operator/dashboard'
+    | '/operator/flights'
+    | '/operator/ground'
+    | '/operator/incidents'
+    | '/operator/messages'
+    | '/operator/notifications'
+    | '/operator/passengers'
+    | '/operator/preparation'
+    | '/operator/profile'
+    | '/operator/quotes'
+    | '/operator/reports'
+    | '/operator/requests'
+    | '/operator/schedule'
     | '/sales/aviation'
     | '/sales/bookings'
     | '/sales/customers'
@@ -600,6 +1289,7 @@ export interface FileRouteTypes {
     | '/sales/requests'
     | '/sales/support'
     | '/sales/yachts'
+    | '/crm/'
     | '/customer/requests/new'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -613,6 +1303,8 @@ export interface FileRouteTypes {
     | '/login'
     | '/membership'
     | '/mobility'
+    | '/operations'
+    | '/operator'
     | '/private'
     | '/register'
     | '/request-access'
@@ -628,6 +1320,7 @@ export interface FileRouteTypes {
     | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/notifications'
+    | '/admin/operations-team'
     | '/admin/operators'
     | '/admin/pricing'
     | '/admin/quotes'
@@ -637,16 +1330,80 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/voice'
     | '/admin/yachts'
+    | '/crm/analytics'
+    | '/crm/assignments'
+    | '/crm/audit-logs'
+    | '/crm/bookings'
+    | '/crm/campaigns'
+    | '/crm/conversations'
+    | '/crm/customers'
+    | '/crm/dashboard'
+    | '/crm/duplicates'
+    | '/crm/email-sms'
+    | '/crm/enquiries'
+    | '/crm/exports'
+    | '/crm/followups'
+    | '/crm/inbox'
+    | '/crm/integrations'
+    | '/crm/leads'
+    | '/crm/performance'
+    | '/crm/pipeline'
+    | '/crm/quotations'
+    | '/crm/reports'
+    | '/crm/settings'
+    | '/crm/social-leads'
+    | '/crm/tasks'
+    | '/crm/website-leads'
+    | '/crm/whatsapp-leads'
     | '/customer/bookings'
     | '/customer/dashboard'
     | '/customer/documents'
     | '/customer/events'
+    | '/customer/flight-booking'
     | '/customer/notifications'
     | '/customer/profile'
     | '/customer/quotes'
     | '/customer/requests'
     | '/customer/subscriptions'
     | '/customer/support'
+    | '/operations/aircraft'
+    | '/operations/assignments'
+    | '/operations/bookings'
+    | '/operations/checkin'
+    | '/operations/compliance'
+    | '/operations/crew'
+    | '/operations/dashboard'
+    | '/operations/documents'
+    | '/operations/ground-handling'
+    | '/operations/hems'
+    | '/operations/incidents'
+    | '/operations/landing-sites'
+    | '/operations/monitoring'
+    | '/operations/notifications'
+    | '/operations/operators'
+    | '/operations/passengers'
+    | '/operations/preparation'
+    | '/operations/profile'
+    | '/operations/reports'
+    | '/operations/schedule'
+    | '/operator/aircraft'
+    | '/operator/availability'
+    | '/operator/bookings'
+    | '/operator/compliance'
+    | '/operator/crew'
+    | '/operator/dashboard'
+    | '/operator/flights'
+    | '/operator/ground'
+    | '/operator/incidents'
+    | '/operator/messages'
+    | '/operator/notifications'
+    | '/operator/passengers'
+    | '/operator/preparation'
+    | '/operator/profile'
+    | '/operator/quotes'
+    | '/operator/reports'
+    | '/operator/requests'
+    | '/operator/schedule'
     | '/sales/aviation'
     | '/sales/bookings'
     | '/sales/customers'
@@ -660,6 +1417,7 @@ export interface FileRouteTypes {
     | '/sales/requests'
     | '/sales/support'
     | '/sales/yachts'
+    | '/crm'
     | '/customer/requests/new'
   id:
     | '__root__'
@@ -667,12 +1425,15 @@ export interface FileRouteTypes {
     | '/about'
     | '/aviation'
     | '/concierge'
+    | '/crm'
     | '/destinations'
     | '/experiences'
     | '/forgot-password'
     | '/login'
     | '/membership'
     | '/mobility'
+    | '/operations'
+    | '/operator'
     | '/private'
     | '/register'
     | '/request-access'
@@ -688,6 +1449,7 @@ export interface FileRouteTypes {
     | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/notifications'
+    | '/admin/operations-team'
     | '/admin/operators'
     | '/admin/pricing'
     | '/admin/quotes'
@@ -697,16 +1459,80 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/voice'
     | '/admin/yachts'
+    | '/crm/analytics'
+    | '/crm/assignments'
+    | '/crm/audit-logs'
+    | '/crm/bookings'
+    | '/crm/campaigns'
+    | '/crm/conversations'
+    | '/crm/customers'
+    | '/crm/dashboard'
+    | '/crm/duplicates'
+    | '/crm/email-sms'
+    | '/crm/enquiries'
+    | '/crm/exports'
+    | '/crm/followups'
+    | '/crm/inbox'
+    | '/crm/integrations'
+    | '/crm/leads'
+    | '/crm/performance'
+    | '/crm/pipeline'
+    | '/crm/quotations'
+    | '/crm/reports'
+    | '/crm/settings'
+    | '/crm/social-leads'
+    | '/crm/tasks'
+    | '/crm/website-leads'
+    | '/crm/whatsapp-leads'
     | '/customer/bookings'
     | '/customer/dashboard'
     | '/customer/documents'
     | '/customer/events'
+    | '/customer/flight-booking'
     | '/customer/notifications'
     | '/customer/profile'
     | '/customer/quotes'
     | '/customer/requests'
     | '/customer/subscriptions'
     | '/customer/support'
+    | '/operations/aircraft'
+    | '/operations/assignments'
+    | '/operations/bookings'
+    | '/operations/checkin'
+    | '/operations/compliance'
+    | '/operations/crew'
+    | '/operations/dashboard'
+    | '/operations/documents'
+    | '/operations/ground-handling'
+    | '/operations/hems'
+    | '/operations/incidents'
+    | '/operations/landing-sites'
+    | '/operations/monitoring'
+    | '/operations/notifications'
+    | '/operations/operators'
+    | '/operations/passengers'
+    | '/operations/preparation'
+    | '/operations/profile'
+    | '/operations/reports'
+    | '/operations/schedule'
+    | '/operator/aircraft'
+    | '/operator/availability'
+    | '/operator/bookings'
+    | '/operator/compliance'
+    | '/operator/crew'
+    | '/operator/dashboard'
+    | '/operator/flights'
+    | '/operator/ground'
+    | '/operator/incidents'
+    | '/operator/messages'
+    | '/operator/notifications'
+    | '/operator/passengers'
+    | '/operator/preparation'
+    | '/operator/profile'
+    | '/operator/quotes'
+    | '/operator/reports'
+    | '/operator/requests'
+    | '/operator/schedule'
     | '/sales/aviation'
     | '/sales/bookings'
     | '/sales/customers'
@@ -720,6 +1546,7 @@ export interface FileRouteTypes {
     | '/sales/requests'
     | '/sales/support'
     | '/sales/yachts'
+    | '/crm/'
     | '/customer/requests/new'
   fileRoutesById: FileRoutesById
 }
@@ -728,12 +1555,15 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AviationRoute: typeof AviationRoute
   ConciergeRoute: typeof ConciergeRoute
+  CrmRoute: typeof CrmRouteWithChildren
   DestinationsRoute: typeof DestinationsRoute
   ExperiencesRoute: typeof ExperiencesRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
   MembershipRoute: typeof MembershipRoute
   MobilityRoute: typeof MobilityRoute
+  OperationsRoute: typeof OperationsRouteWithChildren
+  OperatorRoute: typeof OperatorRouteWithChildren
   PrivateRoute: typeof PrivateRoute
   RegisterRoute: typeof RegisterRoute
   RequestAccessRoute: typeof RequestAccessRoute
@@ -749,6 +1579,7 @@ export interface RootRouteChildren {
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminNotificationsRoute: typeof AdminNotificationsRoute
+  AdminOperationsTeamRoute: typeof AdminOperationsTeamRoute
   AdminOperatorsRoute: typeof AdminOperatorsRoute
   AdminPricingRoute: typeof AdminPricingRoute
   AdminQuotesRoute: typeof AdminQuotesRoute
@@ -762,6 +1593,7 @@ export interface RootRouteChildren {
   CustomerDashboardRoute: typeof CustomerDashboardRoute
   CustomerDocumentsRoute: typeof CustomerDocumentsRoute
   CustomerEventsRoute: typeof CustomerEventsRoute
+  CustomerFlightBookingRoute: typeof CustomerFlightBookingRoute
   CustomerNotificationsRoute: typeof CustomerNotificationsRoute
   CustomerProfileRoute: typeof CustomerProfileRoute
   CustomerQuotesRoute: typeof CustomerQuotesRoute
@@ -813,6 +1645,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ConciergeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crm': {
+      id: '/crm'
+      path: '/crm'
+      fullPath: '/crm'
+      preLoaderRoute: typeof CrmRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/destinations': {
       id: '/destinations'
       path: '/destinations'
@@ -853,6 +1692,20 @@ declare module '@tanstack/react-router' {
       path: '/mobility'
       fullPath: '/mobility'
       preLoaderRoute: typeof MobilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operations': {
+      id: '/operations'
+      path: '/operations'
+      fullPath: '/operations'
+      preLoaderRoute: typeof OperationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operator': {
+      id: '/operator'
+      path: '/operator'
+      fullPath: '/operator'
+      preLoaderRoute: typeof OperatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/private': {
@@ -960,6 +1813,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminNotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/operations-team': {
+      id: '/admin/operations-team'
+      path: '/admin/operations-team'
+      fullPath: '/admin/operations-team'
+      preLoaderRoute: typeof AdminOperationsTeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/operators': {
       id: '/admin/operators'
       path: '/admin/operators'
@@ -1023,6 +1883,188 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminYachtsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/crm/': {
+      id: '/crm/'
+      path: '/'
+      fullPath: '/crm/'
+      preLoaderRoute: typeof CrmIndexRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/analytics': {
+      id: '/crm/analytics'
+      path: '/analytics'
+      fullPath: '/crm/analytics'
+      preLoaderRoute: typeof CrmAnalyticsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/assignments': {
+      id: '/crm/assignments'
+      path: '/assignments'
+      fullPath: '/crm/assignments'
+      preLoaderRoute: typeof CrmAssignmentsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/audit-logs': {
+      id: '/crm/audit-logs'
+      path: '/audit-logs'
+      fullPath: '/crm/audit-logs'
+      preLoaderRoute: typeof CrmAuditLogsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/bookings': {
+      id: '/crm/bookings'
+      path: '/bookings'
+      fullPath: '/crm/bookings'
+      preLoaderRoute: typeof CrmBookingsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/campaigns': {
+      id: '/crm/campaigns'
+      path: '/campaigns'
+      fullPath: '/crm/campaigns'
+      preLoaderRoute: typeof CrmCampaignsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/conversations': {
+      id: '/crm/conversations'
+      path: '/conversations'
+      fullPath: '/crm/conversations'
+      preLoaderRoute: typeof CrmConversationsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/customers': {
+      id: '/crm/customers'
+      path: '/customers'
+      fullPath: '/crm/customers'
+      preLoaderRoute: typeof CrmCustomersRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/dashboard': {
+      id: '/crm/dashboard'
+      path: '/dashboard'
+      fullPath: '/crm/dashboard'
+      preLoaderRoute: typeof CrmDashboardRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/duplicates': {
+      id: '/crm/duplicates'
+      path: '/duplicates'
+      fullPath: '/crm/duplicates'
+      preLoaderRoute: typeof CrmDuplicatesRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/email-sms': {
+      id: '/crm/email-sms'
+      path: '/email-sms'
+      fullPath: '/crm/email-sms'
+      preLoaderRoute: typeof CrmEmailSmsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/enquiries': {
+      id: '/crm/enquiries'
+      path: '/enquiries'
+      fullPath: '/crm/enquiries'
+      preLoaderRoute: typeof CrmEnquiriesRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/exports': {
+      id: '/crm/exports'
+      path: '/exports'
+      fullPath: '/crm/exports'
+      preLoaderRoute: typeof CrmExportsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/followups': {
+      id: '/crm/followups'
+      path: '/followups'
+      fullPath: '/crm/followups'
+      preLoaderRoute: typeof CrmFollowupsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/inbox': {
+      id: '/crm/inbox'
+      path: '/inbox'
+      fullPath: '/crm/inbox'
+      preLoaderRoute: typeof CrmInboxRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/integrations': {
+      id: '/crm/integrations'
+      path: '/integrations'
+      fullPath: '/crm/integrations'
+      preLoaderRoute: typeof CrmIntegrationsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/leads': {
+      id: '/crm/leads'
+      path: '/leads'
+      fullPath: '/crm/leads'
+      preLoaderRoute: typeof CrmLeadsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/performance': {
+      id: '/crm/performance'
+      path: '/performance'
+      fullPath: '/crm/performance'
+      preLoaderRoute: typeof CrmPerformanceRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/pipeline': {
+      id: '/crm/pipeline'
+      path: '/pipeline'
+      fullPath: '/crm/pipeline'
+      preLoaderRoute: typeof CrmPipelineRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/quotations': {
+      id: '/crm/quotations'
+      path: '/quotations'
+      fullPath: '/crm/quotations'
+      preLoaderRoute: typeof CrmQuotationsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/reports': {
+      id: '/crm/reports'
+      path: '/reports'
+      fullPath: '/crm/reports'
+      preLoaderRoute: typeof CrmReportsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/settings': {
+      id: '/crm/settings'
+      path: '/settings'
+      fullPath: '/crm/settings'
+      preLoaderRoute: typeof CrmSettingsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/social-leads': {
+      id: '/crm/social-leads'
+      path: '/social-leads'
+      fullPath: '/crm/social-leads'
+      preLoaderRoute: typeof CrmSocialLeadsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/tasks': {
+      id: '/crm/tasks'
+      path: '/tasks'
+      fullPath: '/crm/tasks'
+      preLoaderRoute: typeof CrmTasksRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/website-leads': {
+      id: '/crm/website-leads'
+      path: '/website-leads'
+      fullPath: '/crm/website-leads'
+      preLoaderRoute: typeof CrmWebsiteLeadsRouteImport
+      parentRoute: typeof CrmRoute
+    }
+    '/crm/whatsapp-leads': {
+      id: '/crm/whatsapp-leads'
+      path: '/whatsapp-leads'
+      fullPath: '/crm/whatsapp-leads'
+      preLoaderRoute: typeof CrmWhatsappLeadsRouteImport
+      parentRoute: typeof CrmRoute
+    }
     '/customer/bookings': {
       id: '/customer/bookings'
       path: '/customer/bookings'
@@ -1049,6 +2091,13 @@ declare module '@tanstack/react-router' {
       path: '/customer/events'
       fullPath: '/customer/events'
       preLoaderRoute: typeof CustomerEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customer/flight-booking': {
+      id: '/customer/flight-booking'
+      path: '/customer/flight-booking'
+      fullPath: '/customer/flight-booking'
+      preLoaderRoute: typeof CustomerFlightBookingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customer/notifications': {
@@ -1092,6 +2141,272 @@ declare module '@tanstack/react-router' {
       fullPath: '/customer/support'
       preLoaderRoute: typeof CustomerSupportRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/operations/aircraft': {
+      id: '/operations/aircraft'
+      path: '/aircraft'
+      fullPath: '/operations/aircraft'
+      preLoaderRoute: typeof OperationsAircraftRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/assignments': {
+      id: '/operations/assignments'
+      path: '/assignments'
+      fullPath: '/operations/assignments'
+      preLoaderRoute: typeof OperationsAssignmentsRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/bookings': {
+      id: '/operations/bookings'
+      path: '/bookings'
+      fullPath: '/operations/bookings'
+      preLoaderRoute: typeof OperationsBookingsRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/checkin': {
+      id: '/operations/checkin'
+      path: '/checkin'
+      fullPath: '/operations/checkin'
+      preLoaderRoute: typeof OperationsCheckinRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/compliance': {
+      id: '/operations/compliance'
+      path: '/compliance'
+      fullPath: '/operations/compliance'
+      preLoaderRoute: typeof OperationsComplianceRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/crew': {
+      id: '/operations/crew'
+      path: '/crew'
+      fullPath: '/operations/crew'
+      preLoaderRoute: typeof OperationsCrewRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/dashboard': {
+      id: '/operations/dashboard'
+      path: '/dashboard'
+      fullPath: '/operations/dashboard'
+      preLoaderRoute: typeof OperationsDashboardRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/documents': {
+      id: '/operations/documents'
+      path: '/documents'
+      fullPath: '/operations/documents'
+      preLoaderRoute: typeof OperationsDocumentsRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/ground-handling': {
+      id: '/operations/ground-handling'
+      path: '/ground-handling'
+      fullPath: '/operations/ground-handling'
+      preLoaderRoute: typeof OperationsGroundHandlingRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/hems': {
+      id: '/operations/hems'
+      path: '/hems'
+      fullPath: '/operations/hems'
+      preLoaderRoute: typeof OperationsHemsRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/incidents': {
+      id: '/operations/incidents'
+      path: '/incidents'
+      fullPath: '/operations/incidents'
+      preLoaderRoute: typeof OperationsIncidentsRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/landing-sites': {
+      id: '/operations/landing-sites'
+      path: '/landing-sites'
+      fullPath: '/operations/landing-sites'
+      preLoaderRoute: typeof OperationsLandingSitesRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/monitoring': {
+      id: '/operations/monitoring'
+      path: '/monitoring'
+      fullPath: '/operations/monitoring'
+      preLoaderRoute: typeof OperationsMonitoringRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/notifications': {
+      id: '/operations/notifications'
+      path: '/notifications'
+      fullPath: '/operations/notifications'
+      preLoaderRoute: typeof OperationsNotificationsRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/operators': {
+      id: '/operations/operators'
+      path: '/operators'
+      fullPath: '/operations/operators'
+      preLoaderRoute: typeof OperationsOperatorsRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/passengers': {
+      id: '/operations/passengers'
+      path: '/passengers'
+      fullPath: '/operations/passengers'
+      preLoaderRoute: typeof OperationsPassengersRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/preparation': {
+      id: '/operations/preparation'
+      path: '/preparation'
+      fullPath: '/operations/preparation'
+      preLoaderRoute: typeof OperationsPreparationRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/profile': {
+      id: '/operations/profile'
+      path: '/profile'
+      fullPath: '/operations/profile'
+      preLoaderRoute: typeof OperationsProfileRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/reports': {
+      id: '/operations/reports'
+      path: '/reports'
+      fullPath: '/operations/reports'
+      preLoaderRoute: typeof OperationsReportsRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operations/schedule': {
+      id: '/operations/schedule'
+      path: '/schedule'
+      fullPath: '/operations/schedule'
+      preLoaderRoute: typeof OperationsScheduleRouteImport
+      parentRoute: typeof OperationsRoute
+    }
+    '/operator/aircraft': {
+      id: '/operator/aircraft'
+      path: '/aircraft'
+      fullPath: '/operator/aircraft'
+      preLoaderRoute: typeof OperatorAircraftRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/availability': {
+      id: '/operator/availability'
+      path: '/availability'
+      fullPath: '/operator/availability'
+      preLoaderRoute: typeof OperatorAvailabilityRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/bookings': {
+      id: '/operator/bookings'
+      path: '/bookings'
+      fullPath: '/operator/bookings'
+      preLoaderRoute: typeof OperatorBookingsRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/compliance': {
+      id: '/operator/compliance'
+      path: '/compliance'
+      fullPath: '/operator/compliance'
+      preLoaderRoute: typeof OperatorComplianceRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/crew': {
+      id: '/operator/crew'
+      path: '/crew'
+      fullPath: '/operator/crew'
+      preLoaderRoute: typeof OperatorCrewRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/dashboard': {
+      id: '/operator/dashboard'
+      path: '/dashboard'
+      fullPath: '/operator/dashboard'
+      preLoaderRoute: typeof OperatorDashboardRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/flights': {
+      id: '/operator/flights'
+      path: '/flights'
+      fullPath: '/operator/flights'
+      preLoaderRoute: typeof OperatorFlightsRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/ground': {
+      id: '/operator/ground'
+      path: '/ground'
+      fullPath: '/operator/ground'
+      preLoaderRoute: typeof OperatorGroundRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/incidents': {
+      id: '/operator/incidents'
+      path: '/incidents'
+      fullPath: '/operator/incidents'
+      preLoaderRoute: typeof OperatorIncidentsRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/messages': {
+      id: '/operator/messages'
+      path: '/messages'
+      fullPath: '/operator/messages'
+      preLoaderRoute: typeof OperatorMessagesRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/notifications': {
+      id: '/operator/notifications'
+      path: '/notifications'
+      fullPath: '/operator/notifications'
+      preLoaderRoute: typeof OperatorNotificationsRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/passengers': {
+      id: '/operator/passengers'
+      path: '/passengers'
+      fullPath: '/operator/passengers'
+      preLoaderRoute: typeof OperatorPassengersRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/preparation': {
+      id: '/operator/preparation'
+      path: '/preparation'
+      fullPath: '/operator/preparation'
+      preLoaderRoute: typeof OperatorPreparationRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/profile': {
+      id: '/operator/profile'
+      path: '/profile'
+      fullPath: '/operator/profile'
+      preLoaderRoute: typeof OperatorProfileRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/quotes': {
+      id: '/operator/quotes'
+      path: '/quotes'
+      fullPath: '/operator/quotes'
+      preLoaderRoute: typeof OperatorQuotesRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/reports': {
+      id: '/operator/reports'
+      path: '/reports'
+      fullPath: '/operator/reports'
+      preLoaderRoute: typeof OperatorReportsRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/requests': {
+      id: '/operator/requests'
+      path: '/requests'
+      fullPath: '/operator/requests'
+      preLoaderRoute: typeof OperatorRequestsRouteImport
+      parentRoute: typeof OperatorRoute
+    }
+    '/operator/schedule': {
+      id: '/operator/schedule'
+      path: '/schedule'
+      fullPath: '/operator/schedule'
+      preLoaderRoute: typeof OperatorScheduleRouteImport
+      parentRoute: typeof OperatorRoute
     }
     '/sales/aviation': {
       id: '/sales/aviation'
@@ -1194,6 +2509,162 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface CrmRouteChildren {
+  CrmAnalyticsRoute: typeof CrmAnalyticsRoute
+  CrmAssignmentsRoute: typeof CrmAssignmentsRoute
+  CrmAuditLogsRoute: typeof CrmAuditLogsRoute
+  CrmBookingsRoute: typeof CrmBookingsRoute
+  CrmCampaignsRoute: typeof CrmCampaignsRoute
+  CrmConversationsRoute: typeof CrmConversationsRoute
+  CrmCustomersRoute: typeof CrmCustomersRoute
+  CrmDashboardRoute: typeof CrmDashboardRoute
+  CrmDuplicatesRoute: typeof CrmDuplicatesRoute
+  CrmEmailSmsRoute: typeof CrmEmailSmsRoute
+  CrmEnquiriesRoute: typeof CrmEnquiriesRoute
+  CrmExportsRoute: typeof CrmExportsRoute
+  CrmFollowupsRoute: typeof CrmFollowupsRoute
+  CrmInboxRoute: typeof CrmInboxRoute
+  CrmIntegrationsRoute: typeof CrmIntegrationsRoute
+  CrmLeadsRoute: typeof CrmLeadsRoute
+  CrmPerformanceRoute: typeof CrmPerformanceRoute
+  CrmPipelineRoute: typeof CrmPipelineRoute
+  CrmQuotationsRoute: typeof CrmQuotationsRoute
+  CrmReportsRoute: typeof CrmReportsRoute
+  CrmSettingsRoute: typeof CrmSettingsRoute
+  CrmSocialLeadsRoute: typeof CrmSocialLeadsRoute
+  CrmTasksRoute: typeof CrmTasksRoute
+  CrmWebsiteLeadsRoute: typeof CrmWebsiteLeadsRoute
+  CrmWhatsappLeadsRoute: typeof CrmWhatsappLeadsRoute
+  CrmIndexRoute: typeof CrmIndexRoute
+}
+
+const CrmRouteChildren: CrmRouteChildren = {
+  CrmAnalyticsRoute: CrmAnalyticsRoute,
+  CrmAssignmentsRoute: CrmAssignmentsRoute,
+  CrmAuditLogsRoute: CrmAuditLogsRoute,
+  CrmBookingsRoute: CrmBookingsRoute,
+  CrmCampaignsRoute: CrmCampaignsRoute,
+  CrmConversationsRoute: CrmConversationsRoute,
+  CrmCustomersRoute: CrmCustomersRoute,
+  CrmDashboardRoute: CrmDashboardRoute,
+  CrmDuplicatesRoute: CrmDuplicatesRoute,
+  CrmEmailSmsRoute: CrmEmailSmsRoute,
+  CrmEnquiriesRoute: CrmEnquiriesRoute,
+  CrmExportsRoute: CrmExportsRoute,
+  CrmFollowupsRoute: CrmFollowupsRoute,
+  CrmInboxRoute: CrmInboxRoute,
+  CrmIntegrationsRoute: CrmIntegrationsRoute,
+  CrmLeadsRoute: CrmLeadsRoute,
+  CrmPerformanceRoute: CrmPerformanceRoute,
+  CrmPipelineRoute: CrmPipelineRoute,
+  CrmQuotationsRoute: CrmQuotationsRoute,
+  CrmReportsRoute: CrmReportsRoute,
+  CrmSettingsRoute: CrmSettingsRoute,
+  CrmSocialLeadsRoute: CrmSocialLeadsRoute,
+  CrmTasksRoute: CrmTasksRoute,
+  CrmWebsiteLeadsRoute: CrmWebsiteLeadsRoute,
+  CrmWhatsappLeadsRoute: CrmWhatsappLeadsRoute,
+  CrmIndexRoute: CrmIndexRoute,
+}
+
+const CrmRouteWithChildren = CrmRoute._addFileChildren(CrmRouteChildren)
+
+interface OperationsRouteChildren {
+  OperationsAircraftRoute: typeof OperationsAircraftRoute
+  OperationsAssignmentsRoute: typeof OperationsAssignmentsRoute
+  OperationsBookingsRoute: typeof OperationsBookingsRoute
+  OperationsCheckinRoute: typeof OperationsCheckinRoute
+  OperationsComplianceRoute: typeof OperationsComplianceRoute
+  OperationsCrewRoute: typeof OperationsCrewRoute
+  OperationsDashboardRoute: typeof OperationsDashboardRoute
+  OperationsDocumentsRoute: typeof OperationsDocumentsRoute
+  OperationsGroundHandlingRoute: typeof OperationsGroundHandlingRoute
+  OperationsHemsRoute: typeof OperationsHemsRoute
+  OperationsIncidentsRoute: typeof OperationsIncidentsRoute
+  OperationsLandingSitesRoute: typeof OperationsLandingSitesRoute
+  OperationsMonitoringRoute: typeof OperationsMonitoringRoute
+  OperationsNotificationsRoute: typeof OperationsNotificationsRoute
+  OperationsOperatorsRoute: typeof OperationsOperatorsRoute
+  OperationsPassengersRoute: typeof OperationsPassengersRoute
+  OperationsPreparationRoute: typeof OperationsPreparationRoute
+  OperationsProfileRoute: typeof OperationsProfileRoute
+  OperationsReportsRoute: typeof OperationsReportsRoute
+  OperationsScheduleRoute: typeof OperationsScheduleRoute
+}
+
+const OperationsRouteChildren: OperationsRouteChildren = {
+  OperationsAircraftRoute: OperationsAircraftRoute,
+  OperationsAssignmentsRoute: OperationsAssignmentsRoute,
+  OperationsBookingsRoute: OperationsBookingsRoute,
+  OperationsCheckinRoute: OperationsCheckinRoute,
+  OperationsComplianceRoute: OperationsComplianceRoute,
+  OperationsCrewRoute: OperationsCrewRoute,
+  OperationsDashboardRoute: OperationsDashboardRoute,
+  OperationsDocumentsRoute: OperationsDocumentsRoute,
+  OperationsGroundHandlingRoute: OperationsGroundHandlingRoute,
+  OperationsHemsRoute: OperationsHemsRoute,
+  OperationsIncidentsRoute: OperationsIncidentsRoute,
+  OperationsLandingSitesRoute: OperationsLandingSitesRoute,
+  OperationsMonitoringRoute: OperationsMonitoringRoute,
+  OperationsNotificationsRoute: OperationsNotificationsRoute,
+  OperationsOperatorsRoute: OperationsOperatorsRoute,
+  OperationsPassengersRoute: OperationsPassengersRoute,
+  OperationsPreparationRoute: OperationsPreparationRoute,
+  OperationsProfileRoute: OperationsProfileRoute,
+  OperationsReportsRoute: OperationsReportsRoute,
+  OperationsScheduleRoute: OperationsScheduleRoute,
+}
+
+const OperationsRouteWithChildren = OperationsRoute._addFileChildren(
+  OperationsRouteChildren,
+)
+
+interface OperatorRouteChildren {
+  OperatorAircraftRoute: typeof OperatorAircraftRoute
+  OperatorAvailabilityRoute: typeof OperatorAvailabilityRoute
+  OperatorBookingsRoute: typeof OperatorBookingsRoute
+  OperatorComplianceRoute: typeof OperatorComplianceRoute
+  OperatorCrewRoute: typeof OperatorCrewRoute
+  OperatorDashboardRoute: typeof OperatorDashboardRoute
+  OperatorFlightsRoute: typeof OperatorFlightsRoute
+  OperatorGroundRoute: typeof OperatorGroundRoute
+  OperatorIncidentsRoute: typeof OperatorIncidentsRoute
+  OperatorMessagesRoute: typeof OperatorMessagesRoute
+  OperatorNotificationsRoute: typeof OperatorNotificationsRoute
+  OperatorPassengersRoute: typeof OperatorPassengersRoute
+  OperatorPreparationRoute: typeof OperatorPreparationRoute
+  OperatorProfileRoute: typeof OperatorProfileRoute
+  OperatorQuotesRoute: typeof OperatorQuotesRoute
+  OperatorReportsRoute: typeof OperatorReportsRoute
+  OperatorRequestsRoute: typeof OperatorRequestsRoute
+  OperatorScheduleRoute: typeof OperatorScheduleRoute
+}
+
+const OperatorRouteChildren: OperatorRouteChildren = {
+  OperatorAircraftRoute: OperatorAircraftRoute,
+  OperatorAvailabilityRoute: OperatorAvailabilityRoute,
+  OperatorBookingsRoute: OperatorBookingsRoute,
+  OperatorComplianceRoute: OperatorComplianceRoute,
+  OperatorCrewRoute: OperatorCrewRoute,
+  OperatorDashboardRoute: OperatorDashboardRoute,
+  OperatorFlightsRoute: OperatorFlightsRoute,
+  OperatorGroundRoute: OperatorGroundRoute,
+  OperatorIncidentsRoute: OperatorIncidentsRoute,
+  OperatorMessagesRoute: OperatorMessagesRoute,
+  OperatorNotificationsRoute: OperatorNotificationsRoute,
+  OperatorPassengersRoute: OperatorPassengersRoute,
+  OperatorPreparationRoute: OperatorPreparationRoute,
+  OperatorProfileRoute: OperatorProfileRoute,
+  OperatorQuotesRoute: OperatorQuotesRoute,
+  OperatorReportsRoute: OperatorReportsRoute,
+  OperatorRequestsRoute: OperatorRequestsRoute,
+  OperatorScheduleRoute: OperatorScheduleRoute,
+}
+
+const OperatorRouteWithChildren = OperatorRoute._addFileChildren(
+  OperatorRouteChildren,
+)
+
 interface CustomerRequestsRouteChildren {
   CustomerRequestsNewRoute: typeof CustomerRequestsNewRoute
 }
@@ -1210,12 +2681,15 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AviationRoute: AviationRoute,
   ConciergeRoute: ConciergeRoute,
+  CrmRoute: CrmRouteWithChildren,
   DestinationsRoute: DestinationsRoute,
   ExperiencesRoute: ExperiencesRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
   MembershipRoute: MembershipRoute,
   MobilityRoute: MobilityRoute,
+  OperationsRoute: OperationsRouteWithChildren,
+  OperatorRoute: OperatorRouteWithChildren,
   PrivateRoute: PrivateRoute,
   RegisterRoute: RegisterRoute,
   RequestAccessRoute: RequestAccessRoute,
@@ -1231,6 +2705,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminCustomersRoute: AdminCustomersRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminNotificationsRoute: AdminNotificationsRoute,
+  AdminOperationsTeamRoute: AdminOperationsTeamRoute,
   AdminOperatorsRoute: AdminOperatorsRoute,
   AdminPricingRoute: AdminPricingRoute,
   AdminQuotesRoute: AdminQuotesRoute,
@@ -1244,6 +2719,7 @@ const rootRouteChildren: RootRouteChildren = {
   CustomerDashboardRoute: CustomerDashboardRoute,
   CustomerDocumentsRoute: CustomerDocumentsRoute,
   CustomerEventsRoute: CustomerEventsRoute,
+  CustomerFlightBookingRoute: CustomerFlightBookingRoute,
   CustomerNotificationsRoute: CustomerNotificationsRoute,
   CustomerProfileRoute: CustomerProfileRoute,
   CustomerQuotesRoute: CustomerQuotesRoute,

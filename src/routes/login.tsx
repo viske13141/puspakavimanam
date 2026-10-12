@@ -2,19 +2,28 @@ import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { supabase } from "@/integrations/supabase/client";
-import { dashboardForRole, useAuth, requireGuestAccess, type UserRole } from "@/lib/auth";
-import { brand, scenes } from "@/content/site";
+import {
+  dashboardForRole,
+  useAuth,
+  requireGuestAccess,
+  validateStaffMembership,
+  StaffAccessError,
+  type UserRole,
+} from "@/lib/auth";
+import { brand } from "@/content/site";
 
 export const Route = createFileRoute("/login")({
-  beforeLoad: () => { if (typeof window !== "undefined") return requireGuestAccess(); },
+  beforeLoad: () => requireGuestAccess(),
   component: LoginPage,
 });
 
 function friendlyError(msg: string): string {
   const m = msg.toLowerCase();
-  if (m.includes("invalid login") || m.includes("invalid email") || m.includes("invalid password")) return "Invalid email or password.";
+  if (m.includes("invalid login") || m.includes("invalid email") || m.includes("invalid password"))
+    return "Invalid email or password.";
   if (m.includes("email not confirmed")) return "Please verify your email before signing in.";
-  if (m.includes("network") || m.includes("fetch")) return "Network error. Please check your connection.";
+  if (m.includes("network") || m.includes("fetch"))
+    return "Network error. Please check your connection.";
   if (m.includes("too many")) return "Too many attempts. Please wait a moment and try again.";
   return msg || "Something went wrong. Please try again.";
 }
@@ -28,6 +37,12 @@ function LoginPage() {
   const [pending, setPending] = useState(false);
   const [navigating, setNavigating] = useState(false);
 
+  async function goToDemo(dest: "/operations/dashboard" | "/operator/dashboard" | "/crm/dashboard") {
+    sessionStorage.setItem("demo_mode", "1");
+    setNavigating(true);
+    await navigate({ to: dest, replace: true });
+  }
+
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setPending(true);
@@ -39,32 +54,39 @@ function LoginPage() {
       if (profileError || !data) throw new Error("Unable to load your profile.");
       const profile = Array.isArray(data) ? data[0] : data;
       if (!profile) throw new Error("Unable to load your profile.");
+      await validateStaffMembership(profile);
       setNavigating(true);
       // Replace current history entry so back-button won't return to login
       await navigate({ to: dashboardForRole(profile.role as UserRole), replace: true });
     } catch (err) {
+      if (err instanceof StaffAccessError) {
+        const { error: signOutError } = await supabase.auth.signOut();
+        if (signOutError) {
+          setError(friendlyError(signOutError.message));
+          setPending(false);
+          return;
+        }
+      }
+      setNavigating(false);
       setError(friendlyError(err instanceof Error ? err.message : ""));
       setPending(false);
     }
   }
 
   // Blank screen while redirecting — prevents login page flashing back
-  if (navigating) return <div className="min-h-screen bg-obsidian" />;
+  if (navigating) return <div className="auth-light min-h-screen" />;
 
   return (
-    <div className="relative min-h-screen bg-obsidian text-ivory">
-      {/* Background */}
-      <div className="pointer-events-none fixed inset-0">
-        <img src={scenes.access} alt="" className="h-full w-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-br from-obsidian via-obsidian/90 to-obsidian/80" />
-      </div>
-
+    <div className="auth-light relative min-h-screen bg-obsidian text-ivory">
       {/* Header */}
       <header className="relative z-10 flex items-center justify-between px-7 py-7 md:px-10 md:py-9">
         <Link to="/" className="font-serif text-2xl font-light tracking-[0.18em] text-ivory">
-          {brand.mark}
+          {brand.name}
         </Link>
-        <Link to="/register" className="whisper text-ivory/60 transition-colors hover:text-champagne">
+        <Link
+          to="/register"
+          className="whisper text-ivory/60 transition-colors hover:text-champagne"
+        >
           Register
         </Link>
       </header>
@@ -75,11 +97,13 @@ function LoginPage() {
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full border border-ivory/10 bg-[oklch(0.1_0.008_275/0.85)] p-8 backdrop-blur-md md:p-10"
+          className="auth-panel w-full border border-ivory/10 bg-[oklch(0.1_0.008_275/0.85)] p-8 backdrop-blur-md md:p-10"
         >
           <span className="whisper text-champagne">Private Portal</span>
           <h1 className="mt-4 font-serif text-4xl font-light text-ivory">Welcome back.</h1>
-          <p className="mt-2 font-serif text-base italic text-ivory/50">Sign in to continue with your private travel desk.</p>
+          <p className="mt-2 font-serif text-base italic text-ivory/50">
+            Sign in to continue with your private travel desk.
+          </p>
 
           <form onSubmit={submit} className="mt-10 space-y-6">
             {error && (
@@ -87,10 +111,42 @@ function LoginPage() {
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 role="alert"
-                className="border border-red-300/30 bg-red-900/10 px-4 py-3 font-serif text-sm italic text-red-200"
+                className="border border-red-300 bg-red-50 px-4 py-3 font-serif text-sm italic text-red-800"
               >
                 {error}
               </motion.p>
+            )}
+
+            {import.meta.env.DEV && (
+              <div className="space-y-3 border border-ivory/10 bg-ivory/[0.03] p-4">
+                <p className="whisper text-ivory/55">Development demo shortcuts</p>
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => goToDemo("/operations/dashboard")}
+                    className="border border-ivory/15 px-3 py-3 text-left font-serif text-sm text-ivory/75 transition-colors hover:border-champagne/50 hover:text-champagne"
+                  >
+                    Operations demo
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => goToDemo("/operator/dashboard")}
+                    className="border border-ivory/15 px-3 py-3 text-left font-serif text-sm text-ivory/75 transition-colors hover:border-champagne/50 hover:text-champagne"
+                  >
+                    Operator demo
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => goToDemo("/crm/dashboard")}
+                    className="border border-ivory/15 px-3 py-3 text-left font-serif text-sm text-ivory/75 transition-colors hover:border-champagne/50 hover:text-champagne"
+                  >
+                    CRM demo
+                  </button>
+                </div>
+                <p className="font-serif text-xs text-ivory/40">
+                  Demo mode — bypasses authentication, goes directly to dashboard.
+                </p>
+              </div>
             )}
 
             <label className="group relative block">
@@ -101,7 +157,7 @@ function LoginPage() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="field"
+                className="field-light"
               />
               <span className="pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-champagne transition-transform duration-700 ease-out group-focus-within:scale-x-100" />
             </label>
@@ -114,13 +170,16 @@ function LoginPage() {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="field"
+                className="field-light"
               />
               <span className="pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-champagne transition-transform duration-700 ease-out group-focus-within:scale-x-100" />
             </label>
 
             <div className="flex items-center justify-between pt-1">
-              <Link to="/forgot-password" className="whisper text-ivory/40 transition-colors hover:text-champagne">
+              <Link
+                to="/forgot-password"
+                className="whisper text-ivory/40 transition-colors hover:text-champagne"
+              >
                 Forgot password?
               </Link>
             </div>

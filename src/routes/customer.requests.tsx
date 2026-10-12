@@ -1,56 +1,147 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { requireRoleAccess } from "@/lib/auth";
 import { PortalShell } from "@/components/dashboard/PortalShell";
 import { listCustomerRequests } from "@/lib/request-service";
 import { customerNav as nav } from "@/lib/portal-nav";
+import { supabase } from "@/integrations/supabase/client";
 
-type RequestRecord = Record<string, unknown>;
+type RequestRecord = {
+  id: string;
+  request_number: string;
+  service_type: string;
+  destination: string | null;
+  people_count: number;
+  start_date: string | null;
+  created_at: string;
+  status: string;
+  request_mode?: string;
+  customer_details?: { name?: string } | null;
+};
+
+function statusColor(status: string) {
+  if (status === "BOOKED" || status === "COMPLETED") return "border-green-300/40 text-green-200";
+  if (status === "CANCELLED") return "border-red-300/40 text-red-200";
+  if (status === "DRAFT") return "border-ivory/20 text-ivory/40";
+  return "border-champagne/40 text-champagne";
+}
+
+function statusLabel(status: string) {
+  const map: Record<string, string> = {
+    DRAFT: "Draft",
+    SUBMITTED: "Submitted — awaiting review",
+    UNDER_REVIEW: "Under review",
+    SALES_CONTACTED: "Sales has contacted you",
+    OPTIONS_FOUND: "Options found",
+    QUOTE_SENT: "Quote sent — check your email",
+    BOOKED: "Confirmed",
+    COMPLETED: "Completed",
+    CANCELLED: "Cancelled",
+  };
+  return map[status] ?? status;
+}
 
 export const Route = createFileRoute("/customer/requests")({
-  beforeLoad: () => { if (typeof window !== "undefined") return requireRoleAccess(["CUSTOMER"]); },
+  beforeLoad: async () => {
+    if (typeof window !== "undefined") await requireRoleAccess(["CUSTOMER"]);
+  },
   component: CustomerRequests,
 });
 
 function CustomerRequests() {
+  const pathname = useRouterState({ select: (state) => state.location.pathname });
+  if (pathname !== "/customer/requests") return <Outlet />;
+  return <CustomerEnquiries />;
+}
+
+function CustomerEnquiries() {
   const [requests, setRequests] = useState<RequestRecord[]>([]);
   const [error, setError] = useState("");
-  const [tracked, setTracked] = useState<RequestRecord | null>(null);
 
   useEffect(() => {
     void listCustomerRequests()
-      .then((data) => setRequests(data as RequestRecord[]))
+      .then((data) => {
+        // Show only ENQUIRY mode (not bookings — those live on /customer/bookings)
+        const enquiries = (data as RequestRecord[]).filter(
+          (r) => String(r.request_mode ?? "ENQUIRY") === "ENQUIRY",
+        );
+        setRequests(enquiries);
+      })
       .catch((err) => setError(err instanceof Error ? err.message : "Unable to load requests."));
+
+    const channel = supabase
+      .channel("customer-requests-realtime")
+      .on("postgres_changes", { event: "UPDATE", schema: "public", table: "requests" }, () => {
+        void listCustomerRequests()
+          .then((data) =>
+            setRequests(
+              (data as RequestRecord[]).filter(
+                (r) => String(r.request_mode ?? "ENQUIRY") === "ENQUIRY",
+              ),
+            ),
+          )
+          .catch(() => {});
+      })
+      .subscribe();
+    return () => {
+      void supabase.removeChannel(channel);
+    };
   }, []);
 
   return (
-    <PortalShell title="My requests" nav={nav}>
+    <PortalShell title="My enquiries" nav={nav}>
       {error && <p className="mb-4 border border-red-300/30 p-4 text-sm text-red-100">{error}</p>}
-      {!error && !requests.length && <p className="border border-dashed border-white/15 p-10 text-center text-sm text-ivory/50">No requests found.</p>}
+      {!error && !requests.length && (
+        <p className="border border-dashed border-white/15 p-10 text-center text-sm text-ivory/50">
+          No enquiries yet. Submit a request from the home page to get started.
+        </p>
+      )}
       <div className="space-y-3">
         {requests.map((request) => {
-          const details = request.service_details as Record<string, unknown> | null;
-          const customerDetails = request.customer_details as Record<string, unknown> | null;
-          const isEvent = request.service_type === "EVENT_AVIATION";
+          const customer = request.customer_details;
           return (
-            <article key={String(request.id)} className="border border-white/10 bg-white/[0.03] p-5">
-              <div className="flex flex-wrap justify-between gap-4">
+            <article
+              key={String(request.id)}
+              className="border border-ivory/10 bg-white/[0.02] p-5"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <p className="whisper text-champagne">{String(request.request_number)} · {isEvent ? "EVENT AVIATION" : String(request.service_type)}</p>
-                  <p className="mt-2 font-serif text-2xl">{isEvent ? String(details?.event_type ?? "Event flight") : String(request.service_type)}</p>
-                  <p className="mt-1 text-sm text-ivory/50">{String(request.destination ?? "Destination to be confirmed")} · {String(request.people_count)} people</p>
+                  <p className="whisper text-champagne">
+                    {String(request.request_number)} · ENQUIRY
+                  </p>
+                  <p className="mt-2 font-serif text-2xl text-ivory">
+                    {String(request.service_type)}
+                  </p>
+                  <p className="mt-1 text-sm text-ivory/50">
+                    {String(request.destination ?? "Destination TBC")} ·{" "}
+                    {String(request.people_count)} pax
+                  </p>
+                  <p className="mt-1 text-xs text-ivory/35">
+                    {String(request.start_date ?? "Date TBC")} · Submitted{" "}
+                    {new Date(String(request.created_at)).toLocaleDateString()}
+                  </p>
                 </div>
-                <span className="border border-champagne/30 px-3 py-1 whisper text-xs text-champagne">{String(request.status)}</span>
+                <div className="flex flex-col items-end gap-1">
+                  <span
+                    className={`border px-3 py-1 whisper text-[0.58rem] ${statusColor(String(request.status))}`}
+                  >
+                    {String(request.status)}
+                  </span>
+                  <span className="text-xs text-ivory/40">
+                    {statusLabel(String(request.status))}
+                  </span>
+                </div>
               </div>
-              {isEvent && <div className="mt-4 grid gap-2 border-t border-white/10 pt-3 text-xs text-ivory/50 sm:grid-cols-2"><span>Aircraft: {String(details?.aircraft_model ?? "Pending assignment")}</span><span>Timing: {String(details?.timing ?? "Pending")}</span><span>Food: {String(details?.food ?? "Not specified")}</span><span>Crew: {String(details?.crew ?? "Standard crew")}</span></div>}
-              {isEvent && request.status === "BOOKED" && <button type="button" onClick={() => setTracked(request)} className="mt-5 border border-champagne/50 bg-champagne/10 px-4 py-2 whisper text-champagne hover:bg-champagne/20">TRACK EVENT SERVICE →</button>}
-              {request.status !== "BOOKED" && <p className="mt-4 text-xs text-ivory/40">Status updates from the sales desk will appear here.</p>}
-              {customerDetails?.name && <p className="mt-3 text-xs text-ivory/35">Submitted for {String(customerDetails.name)}</p>}
+              {customer?.name && (
+                <p className="mt-3 text-xs text-ivory/35">Submitted for {String(customer.name)}</p>
+              )}
+              <p className="mt-3 text-xs text-ivory/40">
+                Status updates from the sales desk appear here automatically.
+              </p>
             </article>
           );
         })}
       </div>
-      {tracked && <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-4" onClick={() => setTracked(null)}><div className="w-full max-w-2xl border border-ivory/15 bg-[oklch(0.1_0.008_275)] p-7" onClick={(event) => event.stopPropagation()}><div className="flex items-start justify-between border-b border-ivory/10 pb-5"><div><p className="whisper text-champagne">BOOKED EVENT SERVICE</p><h2 className="mt-2 font-serif text-3xl text-ivory">{String((tracked.service_details as Record<string, unknown> | null)?.aircraft_model ?? "Aircraft assigned")}</h2><p className="mt-1 text-xs text-ivory/45">{String(tracked.request_number)} · BOOKED</p></div><button type="button" onClick={() => setTracked(null)} className="text-2xl text-ivory/50 hover:text-champagne" aria-label="Close event tracking">×</button></div><div className="relative mt-6 h-56 overflow-hidden border border-champagne/20 bg-[radial-gradient(circle_at_25%_30%,rgba(220,190,120,.14)_1px,transparent_2px),radial-gradient(circle_at_70%_65%,rgba(220,190,120,.12)_1px,transparent_2px)] bg-[length:34px_34px]"><div className="absolute left-[14%] top-[30%] h-3 w-3 rounded-full bg-champagne shadow-[0_0_20px_rgba(230,200,130,.8)]"/><div className="absolute right-[14%] bottom-[25%] h-3 w-3 rounded-full bg-champagne shadow-[0_0_20px_rgba(230,200,130,.8)]"/><div className="absolute left-[17%] top-[37%] h-px w-[66%] rotate-[22deg] bg-champagne/70"/><span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border border-champagne/40 bg-obsidian/80 px-3 py-2 whisper text-[0.55rem] text-champagne">SERVICE ROUTE</span></div><div className="mt-5 grid gap-3 border-t border-ivory/10 pt-4 text-sm text-ivory/60 sm:grid-cols-2"><span>Event: {String((tracked.service_details as Record<string, unknown> | null)?.event_type ?? "Special event")}</span><span>Date: {String((tracked.service_details as Record<string, unknown> | null)?.event_date ?? "Confirmed with sales")}</span><span>Food: {String((tracked.service_details as Record<string, unknown> | null)?.food ?? "Not specified")}</span><span>Drinks: {String((tracked.service_details as Record<string, unknown> | null)?.drinks ?? "Not specified")}</span></div></div></div>}
     </PortalShell>
   );
 }

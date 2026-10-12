@@ -7,6 +7,7 @@
 /*
  * HELITEJET design system — obsidian / midnight / ivory / champagne.
  * Editorial serif (Cormorant Garamond) for voice, Manrope for whispers.
+ * Light theme tokens are scoped to public website surfaces.
  */
 
 @theme inline {
@@ -164,6 +165,27 @@
   }
 }
 
+/* Light theme field variant */
+@utility field-light {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #CBD2DC;
+  padding: 0.75rem 0;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: #152238;
+  outline: none;
+  transition: border-color 0.4s ease;
+  &::placeholder {
+    color: #8A96A6;
+  }
+  &:focus {
+    border-bottom-color: #B79A65;
+  }
+}
+
 /* Hairline gold rule that draws in */
 @utility gold-rule {
   height: 1px;
@@ -193,4 +215,60 @@
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
   @media (prefers-reduced-motion: reduce) { animation: none; opacity: 0; }
+}
+
+.public-site {
+  color-scheme: light;
+  min-height: 100vh;
+  background: #fff;
+  color: #152238;
+}
+
+.public-cinematic {
+  --obsidian: #fff;
+  --midnight: #f7f8fa;
+  --ivory: #152238;
+  --champagne: #9b7b45;
+  --charcoal: #f6f4ef;
+  --graphite: #596579;
+  --gold: #b79a65;
+  --background: #fff;
+  --foreground: #152238;
+  --card: #f7f8fa;
+  --card-foreground: #152238;
+  --popover: #fff;
+  --popover-foreground: #152238;
+  --primary: #14263d;
+  --primary-foreground: #fff;
+  --secondary: #f0f3f6;
+  --secondary-foreground: #152238;
+  --muted: #f0f3f6;
+  --muted-foreground: #596579;
+  --accent: #b79a65;
+  --accent-foreground: #14263d;
+  --border: #e5e9ef;
+  --input: #cbd2dc;
+  --ring: #b79a65;
+  color-scheme: light;
+  background: #fff;
+  color: #152238;
+}
+
+.auth-light {
+  --obsidian: #f7f8fa;
+  --midnight: #fff;
+  --ivory: #152238;
+  --champagne: #9b7b45;
+  --gold: #b79a65;
+  --input: #cbd2dc;
+  color-scheme: light;
+  background-color: #f7f8fa;
+  color: #152238;
+}
+
+.auth-light .auth-panel {
+  border-color: #e5e9ef;
+  background-color: #fff;
+  box-shadow: 0 12px 44px -28px rgb(20 38 61 / 28%);
+  backdrop-filter: none;
 }

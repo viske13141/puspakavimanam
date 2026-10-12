@@ -2,11 +2,11 @@ import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useAuth, requireGuestAccess } from "@/lib/auth";
-import { brand, scenes } from "@/content/site";
+import { brand } from "@/content/site";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/register")({
-  beforeLoad: () => { if (typeof window !== "undefined") return requireGuestAccess(); },
+  beforeLoad: () => (typeof window === "undefined" ? undefined : requireGuestAccess()),
   component: RegisterPage,
 });
 
@@ -57,15 +57,10 @@ function RegisterPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-obsidian text-ivory">
-      <div className="pointer-events-none fixed inset-0">
-        <img src={scenes.access} alt="" className="h-full w-full object-cover opacity-20" />
-        <div className="absolute inset-0 bg-gradient-to-br from-obsidian via-obsidian/90 to-obsidian/80" />
-      </div>
-
+    <div className="auth-light relative min-h-screen bg-obsidian text-ivory">
       <header className="relative z-10 flex items-center justify-between px-7 py-7 md:px-10 md:py-9">
         <Link to="/" className="font-serif text-2xl font-light tracking-[0.18em] text-ivory">
-          {brand.mark}
+          {brand.name}
         </Link>
         <Link to="/login" className="whisper text-ivory/60 transition-colors hover:text-champagne">
           Sign in
@@ -79,7 +74,7 @@ function RegisterPage() {
               key="confirmed"
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              className="w-full border border-champagne/20 bg-[oklch(0.1_0.008_275/0.85)] p-8 text-center backdrop-blur-md md:p-10"
+              className="auth-panel w-full border border-champagne/20 bg-[oklch(0.1_0.008_275/0.85)] p-8 text-center backdrop-blur-md md:p-10"
             >
               <span className="whisper text-champagne">Account Created</span>
               <h1 className="mt-6 font-serif text-4xl font-light text-ivory">Check your email.</h1>
@@ -104,7 +99,7 @@ function RegisterPage() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-              className="w-full border border-ivory/10 bg-[oklch(0.1_0.008_275/0.85)] p-8 backdrop-blur-md md:p-10"
+              className="auth-panel w-full border border-ivory/10 bg-[oklch(0.1_0.008_275/0.85)] p-8 backdrop-blur-md md:p-10"
             >
               <div className="flex items-center justify-between">
                 <span className="whisper text-champagne">
@@ -131,7 +126,7 @@ function RegisterPage() {
                     initial={{ opacity: 0, y: -8 }}
                     animate={{ opacity: 1, y: 0 }}
                     role="alert"
-                    className="border border-red-300/30 bg-red-900/10 px-4 py-3 font-serif text-sm italic text-red-200"
+                    className="border border-red-300 bg-red-50 px-4 py-3 font-serif text-sm italic text-red-800"
                   >
                     {error}
                   </motion.p>
@@ -154,7 +149,7 @@ function RegisterPage() {
                       autoComplete={autoComplete}
                       value={form[key]}
                       onChange={update(key)}
-                      className="field"
+                      className="field-light"
                     />
                     <span className="pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-champagne transition-transform duration-700 ease-out group-focus-within:scale-x-100" />
                   </label>

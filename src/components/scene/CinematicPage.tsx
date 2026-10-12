@@ -6,6 +6,8 @@ import { CinematicHero } from "./CinematicHero";
 import { Closing } from "./Closing";
 import { Passage } from "./Passage";
 import { ease, useCinematicMotion } from "./motion";
+import { PublicNav } from "@/components/public/PublicNav";
+import { PublicFooter } from "@/components/public/PublicFooter";
 
 /**
  * Reusable world composition: Hero → (chapters) → bespoke sections → Passage → Closing.
@@ -14,18 +16,22 @@ import { ease, useCinematicMotion } from "./motion";
 export function CinematicPage({ world, children, hideChapters = false, heroContent }: { world: World; children?: ReactNode; hideChapters?: boolean; heroContent?: ReactNode }) {
   const { reduced } = useCinematicMotion();
   return (
-    <motion.main
-      initial={reduced ? false : { opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1.2, ease }}
-      className={`relative ${world.opening.quiet ? "bg-[oklch(0.09_0.005_275)]" : "bg-obsidian"}`}
-    >
-      <CinematicHero image={scenes[world.key]} {...world.opening} inquiry={heroContent} />
-      {!hideChapters && world.chapters?.map((c) => <Chapter key={c.id} chapter={c} />)}
-      {children}
-      <Passage text={world.passage} />
-      <Closing next={world.next} />
-    </motion.main>
+    <div className="public-site public-cinematic">
+      <PublicNav />
+      <motion.main
+        initial={reduced ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.2, ease }}
+        className="relative bg-white"
+      >
+        <CinematicHero image={scenes[world.key]} {...world.opening} inquiry={heroContent} />
+        {!hideChapters && world.chapters?.map((c) => <Chapter key={c.id} chapter={c} />)}
+        {children}
+        <Passage text={world.passage} />
+        <Closing next={world.next} />
+      </motion.main>
+      <PublicFooter />
+    </div>
   );
 }
 
@@ -38,6 +44,7 @@ export function worldHead(world: World) {
       { property: "og:description", content: world.seo.description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#ffffff" },
     ],
   };
 }

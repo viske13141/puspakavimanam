@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { redirect } from "@tanstack/react-router";
+import { isRedirect, redirect } from "@tanstack/react-router";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
-export type UserRole = "CUSTOMER" | "SALES" | "ADMIN";
+export type UserRole = "CUSTOMER" | "SALES" | "ADMIN" | "OPERATIONS" | "OPERATOR";
 
 export type Profile = {
   id: string;
@@ -59,37 +59,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     let active = true;
-
-    void supabase.auth.getSession().then(async ({ data }) => {
-      if (!active) return;
-      setSession(data.session);
-      if (data.session?.user) {
-        try {
-          setProfile(await loadProfile(data.session.user.id));
-        } catch {
-          // profile not yet created or RLS blocked — non-fatal
-        }
-      }
-      setLoading(false);
-    });
-
-    const { data: listener } = supabase.auth.onAuthStateChange(async (event, nextSession) => {
-      // INITIAL_SESSION is handled above via getSession — skip to avoid double load
-      if (event === "INITIAL_SESSION") return;
+    let revision = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const applySession = (nextSession: Session | null) => {
+      const current = ++revision;
       setSession(nextSession);
-      if (nextSession?.user) {
-        try {
-          setProfile(await loadProfile(nextSession.user.id));
-        } catch {
-          setProfile(null);
-        }
-      } else {
-        setProfile(null);
+      setProfile(null);
+      if (timer) clearTimeout(timer);
+      if (!nextSession?.user) {
+        setLoading(false);
+        return;
       }
+      setLoading(true);
+      // Supabase auth callbacks run under its session lock. Fetch after returning.
+      timer = setTimeout(() => {
+        void loadProfile(nextSession.user.id)
+          .then((nextProfile) => {
+            if (active && current === revision) setProfile(nextProfile);
+          })
+          .catch(() => {
+            if (active && current === revision) setProfile(null);
+          })
+          .finally(() => {
+            if (active && current === revision) setLoading(false);
+          });
+      }, 0);
+    };
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      if (active) applySession(nextSession);
     });
-
     return () => {
       active = false;
+      ++revision;
+      if (timer) clearTimeout(timer);
       listener.subscription.unsubscribe();
     };
   }, []);
@@ -103,7 +105,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoading,
 
       login: async (email, password) => {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { error } = await supabase.auth.signInWithPassword({
+          email: email.trim().toLowerCase(),
+          password,
+        });
         if (error) {
           if (error.message.toLowerCase().includes("invalid login")) {
             throw new Error("Invalid email or password.");
@@ -140,7 +145,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         // If identities is empty, email confirmation is required
         const needsConfirmation =
-          !data.session && (!data.user?.identities || data.user.identities.length === 0 || !data.session);
+          !data.session &&
+          (!data.user?.identities || data.user.identities.length === 0 || !data.session);
         return { needsConfirmation: needsConfirmation || !data.session };
       },
 
@@ -185,29 +191,80 @@ export function useAuth() {
 export function dashboardForRole(role: UserRole | null | undefined) {
   if (role === "ADMIN") return "/admin/dashboard" as const;
   if (role === "SALES") return "/sales/dashboard" as const;
-  return "/customer/dashboard" as const;
+  if (role === "OPERATIONS") return "/operations/dashboard" as const;
+  if (role === "OPERATOR") return "/operator/dashboard" as const;
+  if (role === "CUSTOMER") return "/customer/dashboard" as const;
+  return "/login" as const;
+}
+
+export class StaffAccessError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "StaffAccessError";
+  }
+}
+
+export async function validateStaffMembership(profile: Profile) {
+  if (profile.role === "SALES") {
+    const { data, error } = await supabase
+      .from("sales_members")
+      .select("id")
+      .eq("profile_id", profile.id)
+      .maybeSingle();
+    if (error) throw error;
+    if (!data) {
+      throw new StaffAccessError(
+        "This Sales account has no team record. Contact an administrator.",
+      );
+    }
+  } else if (profile.role === "OPERATIONS") {
+    const { data, error } = await supabase
+      .from("operations_members")
+      .select("status")
+      .eq("profile_id", profile.id)
+      .maybeSingle();
+    if (error) throw error;
+    if (data?.status !== "active") {
+      throw new StaffAccessError(
+        "This Operations account is not active. Contact an administrator.",
+      );
+    }
+  } else if (profile.role === "OPERATOR") {
+    const { data, error } = await supabase
+      .from("operators")
+      .select("status")
+      .eq("profile_id", profile.id)
+      .maybeSingle();
+    if (error) throw error;
+    if (data?.status !== "active") {
+      throw new StaffAccessError("This Operator account is not active. Contact an administrator.");
+    }
+  }
 }
 
 /** Server-side / beforeLoad route guard — redirects if not authenticated or wrong role. */
 export async function requireRoleAccess(roles: UserRole[]) {
   if (typeof window === "undefined") return; // skip on SSR
-  const { data: { user } } = await supabase.auth.getUser();
+  // Demo mode: bypass auth entirely and allow direct dashboard access
+  if (sessionStorage.getItem("demo_mode") === "1") return;
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw redirect({ to: "/login" });
   try {
     const profile = await loadProfile(user.id);
     if (!roles.includes(profile.role)) {
-      throw redirect({
-        to:
-          profile.role === "ADMIN"
-            ? "/admin/dashboard"
-            : profile.role === "SALES"
-              ? "/sales/dashboard"
-              : "/customer/dashboard",
-      });
+      throw redirect({ to: dashboardForRole(profile.role) });
     }
+    await validateStaffMembership(profile);
   } catch (e) {
     // If it's a redirect, re-throw it
-    if (e && typeof e === "object" && "to" in e) throw e;
+    if (isRedirect(e)) throw e;
+    if (e instanceof StaffAccessError) {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      throw redirect({ to: "/login" });
+    }
     // Profile missing or RLS error — send to login
     throw redirect({ to: "/login" });
   }
@@ -216,14 +273,22 @@ export async function requireRoleAccess(roles: UserRole[]) {
 /** Redirects authenticated users away from guest-only pages. */
 export async function requireGuestAccess() {
   if (typeof window === "undefined") return;
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (user) {
     try {
       const profile = await loadProfile(user.id);
+      await validateStaffMembership(profile);
       throw redirect({ to: dashboardForRole(profile.role) });
     } catch (error) {
-      if (error && typeof error === "object" && "to" in error) throw error;
-      throw redirect({ to: "/customer/dashboard" });
+      if (isRedirect(error)) throw error;
+      if (error instanceof StaffAccessError) {
+        const { error: signOutError } = await supabase.auth.signOut();
+        if (signOutError) throw signOutError;
+        return;
+      }
+      // Keep login available when profile lookup fails instead of creating a redirect loop.
     }
   }
 }

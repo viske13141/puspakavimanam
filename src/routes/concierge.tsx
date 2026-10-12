@@ -1,18 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { CinematicPage, worldHead } from "@/components/scene/CinematicPage";
-import { worlds } from "@/content/site";
-import { ConciergeForm } from "@/components/forms/ConciergeForm";
-const world = worlds.concierge;
+import { ContactPublicPage } from "@/components/public/ContactPublicPage";
 
 export const Route = createFileRoute("/concierge")({
-  head: () => worldHead(world),
-  component: Page,
+  head: () => ({
+    meta: [
+      { title: "Contact HELITEJET — Aviation Enquiries" },
+      {
+        name: "description",
+        content: "Send HELITEJET a charter or aviation experience enquiry.",
+      },
+      { property: "og:title", content: "Contact HELITEJET" },
+      {
+        property: "og:description",
+        content: "Contact HELITEJET about your aviation travel plans.",
+      },
+      { property: "og:type", content: "website" },
+    ],
+  }),
+  component: ContactPublicPage,
 });
-
-function Page() {
-  return (
-    <CinematicPage world={world}>
-      <ConciergeForm />
-    </CinematicPage>
-  );
-}

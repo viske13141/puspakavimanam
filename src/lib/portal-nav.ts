@@ -1,7 +1,9 @@
 export const adminNav = [
+  { label: "Viman CRM", to: "/crm/dashboard" },
   { label: "01 Dashboard", to: "/admin/dashboard" },
   { label: "02 Customers", to: "/admin/customers" },
   { label: "03 Sales Team", to: "/admin/sales-team" },
+  { label: "03A Operations Team", to: "/admin/operations-team" },
   { label: "04 Requests", to: "/admin/requests" },
   { label: "04A Support", to: "/admin/support" },
   { label: "05 Aircraft", to: "/admin/aircraft" },
@@ -32,10 +34,36 @@ export const customerNav = [
   { label: "09 Profile", to: "/customer/profile" },
 ] as const;
 
+export const operationsNav = [
+  { label: "01 Dashboard", to: "/operations/dashboard" },
+  { label: "02 Booking Handover", to: "/operations/bookings" },
+  { label: "03 Flight Schedule", to: "/operations/schedule" },
+  { label: "04 Flight Assignments", to: "/operations/assignments" },
+  { label: "05 Operators", to: "/operations/operators" },
+  { label: "06 Aircraft & Availability", to: "/operations/aircraft" },
+  { label: "07 Pilots & Crew", to: "/operations/crew" },
+  { label: "08 Passenger Management", to: "/operations/passengers" },
+  { label: "09 Check-in & Boarding", to: "/operations/checkin" },
+  { label: "10 Helipads & Landing Sites", to: "/operations/landing-sites" },
+  { label: "11 Ground Handling", to: "/operations/ground-handling" },
+  { label: "12 Flight Preparation", to: "/operations/preparation" },
+  { label: "13 Compliance Center", to: "/operations/compliance" },
+  { label: "14 Flight Monitoring", to: "/operations/monitoring" },
+  { label: "15 Diversions & Incidents", to: "/operations/incidents" },
+  { label: "16 Medical / HEMS", to: "/operations/hems" },
+  { label: "17 Documents", to: "/operations/documents" },
+  { label: "18 Reports", to: "/operations/reports" },
+  { label: "19 Notifications", to: "/operations/notifications" },
+  { label: "20 My Profile", to: "/operations/profile" },
+] as const;
+
+export const operatorNav = [{ label: "01 Dashboard", to: "/operator/dashboard" }] as const;
+
 export const salesNav = [
+  { label: "Viman CRM", to: "/crm/dashboard" },
   { label: "01 Dashboard", to: "/sales/dashboard" },
   { label: "02 Requests", to: "/sales/requests" },
-  { label: "03 My Requests", to: "/sales/my-requests" },
+  { label: "03 Events", to: "/sales/my-requests" },
   { label: "04 Customers", to: "/sales/customers" },
   { label: "05 Aviation", to: "/sales/aviation" },
   { label: "06 Yachts", to: "/sales/yachts" },

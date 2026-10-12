@@ -2,10 +2,10 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { motion, useScroll, useSpring } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { brand } from "@/content/site";
-import { useAuth } from "@/lib/auth";
+import { dashboardForRole, useAuth } from "@/lib/auth";
 import { NavigationOverlay } from "./NavigationOverlay";
 
-const roleDashboard = { ADMIN: "/admin/dashboard", SALES: "/sales/dashboard", CUSTOMER: "/customer/dashboard" } as const;
+
 
 export function Chrome() {
   const [open, setOpen] = useState(false);
@@ -17,8 +17,8 @@ export function Chrome() {
 
   useEffect(() => setOpen(false), [pathname]);
 
-  const dashboardTo = role ? roleDashboard[role] : "/login";
-  const dashboardLabel = role === "ADMIN" ? "Admin" : role === "SALES" ? "Sales" : role === "CUSTOMER" ? "Dashboard" : null;
+  const dashboardTo = role ? dashboardForRole(role) : "/login";
+  const dashboardLabel = role === "ADMIN" ? "Admin" : role === "SALES" ? "Sales" : role ? "Dashboard" : null;
 
   return (
     <>
