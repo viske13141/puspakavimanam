@@ -105,7 +105,7 @@ function LoginPage() {
             {([
               { label: "Operations", sub: "Internal team", to: "/operations/dashboard" },
               { label: "Operators", sub: "Fleet partners", to: "/operator/dashboard" },
-              { label: "CRM", sub: "Sales team", to: "/sales/dashboard" },
+              { label: "CRM", sub: "Sales team", to: "/crm/dashboard" },
             ] as const).map(({ label, sub, to }) => (
               <button
                 key={label}

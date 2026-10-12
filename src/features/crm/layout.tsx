@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
   Plane,
   Menu,
@@ -12,8 +12,10 @@ import {
   ArrowUpRight,
   Sun,
   Moon,
+  LogOut,
 } from "lucide-react";
 import { Toaster } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import { CrmProvider, useCrm } from "./store";
 import { navigation, pageTitle } from "./config";
 import { RecordForm, formNames, type FormRequest, type FormKind } from "./forms";
@@ -36,6 +38,7 @@ export function CrmLayout() {
 function Workspace() {
   const { data, loading, error, retry, mutate } = useCrm();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   const page = pathname.split("/")[2] ?? "dashboard";
   const [collapsed, setCollapsed] = useState(false),
     [mobile, setMobile] = useState(false),
@@ -46,6 +49,12 @@ function Workspace() {
     [search, setSearch] = useState(""),
     [request, setRequest] = useState<FormRequest | null>(null),
     [leadId, setLeadId] = useState("");
+
+  async function handleLogout() {
+    sessionStorage.removeItem("demo_mode");
+    await supabase.auth.signOut();
+    void navigate({ to: "/login" });
+  }
   const goForm = (kind: FormKind) => {
     setQuick(false);
     setRequest({ kind });
@@ -123,6 +132,9 @@ function Workspace() {
             <span>Demo workspace · v1.0</span>
             <Button aria-label="Collapse sidebar" onClick={() => setCollapsed(!collapsed)}>
               <ChevronsLeft size={16} />
+            </Button>
+            <Button aria-label="Logout" onClick={() => void handleLogout()} title="Logout">
+              <LogOut size={16} />
             </Button>
           </div>
         </aside>
