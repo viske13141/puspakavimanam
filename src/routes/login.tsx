@@ -37,11 +37,6 @@ function LoginPage() {
   const [pending, setPending] = useState(false);
   const [navigating, setNavigating] = useState(false);
 
-  async function goToDemo(dest: "/operations/dashboard" | "/operator/dashboard" | "/crm/dashboard") {
-    sessionStorage.setItem("demo_mode", "1");
-    setNavigating(true);
-    await navigate({ to: dest, replace: true });
-  }
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -105,6 +100,31 @@ function LoginPage() {
             Sign in to continue with your private travel desk.
           </p>
 
+          {/* Quick portal access buttons */}
+          <div className="mt-6 grid grid-cols-3 gap-2">
+            {([
+              { label: "Operations", sub: "Internal team", to: "/operations/dashboard" },
+              { label: "Operators", sub: "Fleet partners", to: "/operator/dashboard" },
+              { label: "CRM", sub: "Sales team", to: "/sales/dashboard" },
+            ] as const).map(({ label, sub, to }) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => {
+                  sessionStorage.setItem("demo_mode", "1");
+                  navigate({ to: to as "/operations/dashboard" | "/operator/dashboard" | "/sales/dashboard" });
+                }}
+                className="border border-ivory/10 bg-ivory/[0.03] px-3 py-3 text-left transition-colors hover:border-champagne/40 hover:bg-champagne/5"
+              >
+                <p className="whisper text-champagne text-xs">{label}</p>
+                <p className="mt-0.5 font-serif text-xs text-ivory/40">{sub}</p>
+              </button>
+            ))}
+          </div>
+          <p className="mt-3 font-serif text-xs italic text-ivory/30">
+            Click a portal to access directly, or sign in below.
+          </p>
+
           <form onSubmit={submit} className="mt-10 space-y-6">
             {error && (
               <motion.p
@@ -115,38 +135,6 @@ function LoginPage() {
               >
                 {error}
               </motion.p>
-            )}
-
-            {import.meta.env.DEV && (
-              <div className="space-y-3 border border-ivory/10 bg-ivory/[0.03] p-4">
-                <p className="whisper text-ivory/55">Development demo shortcuts</p>
-                <div className="grid grid-cols-3 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => goToDemo("/operations/dashboard")}
-                    className="border border-ivory/15 px-3 py-3 text-left font-serif text-sm text-ivory/75 transition-colors hover:border-champagne/50 hover:text-champagne"
-                  >
-                    Operations demo
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => goToDemo("/operator/dashboard")}
-                    className="border border-ivory/15 px-3 py-3 text-left font-serif text-sm text-ivory/75 transition-colors hover:border-champagne/50 hover:text-champagne"
-                  >
-                    Operator demo
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => goToDemo("/crm/dashboard")}
-                    className="border border-ivory/15 px-3 py-3 text-left font-serif text-sm text-ivory/75 transition-colors hover:border-champagne/50 hover:text-champagne"
-                  >
-                    CRM demo
-                  </button>
-                </div>
-                <p className="font-serif text-xs text-ivory/40">
-                  Demo mode — bypasses authentication, goes directly to dashboard.
-                </p>
-              </div>
             )}
 
             <label className="group relative block">
