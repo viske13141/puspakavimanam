@@ -7,7 +7,7 @@ import { useAuth } from "@/lib/auth";
 const currencies = ["EUR", "USD", "GBP", "AED", "INR"] as const;
 type Currency = (typeof currencies)[number];
 
-export function BookingWidget() {
+export function BookingWidget({ inline = false }: { inline?: boolean }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [kind, setKind] = useState<"flight" | "helicopter" | "">("");
@@ -38,8 +38,8 @@ export function BookingWidget() {
   }
 
   return (
-    <section className="relative z-10 -mt-24 px-4 pb-0 md:px-10">
-      <div className="mx-auto max-w-5xl">
+    <section className={inline ? "w-full" : "relative z-10 -mt-24 px-4 pb-0 md:px-10"}>
+      <div className={inline ? "w-full" : "mx-auto max-w-5xl"}>
         <motion.div
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}

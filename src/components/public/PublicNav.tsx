@@ -7,7 +7,8 @@ import { dashboardForRole, useAuth } from "@/lib/auth";
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/aviation#helicopters", label: "Helicopters" },
-  { to: "/aviation#private-jets", label: "Private Jets" },
+  { to: "/aviation/private-jets", label: "Private Jets" },
+  { to: "/yachts", label: "Yachts" },
   { to: "/aviation#fleet", label: "Fleet" },
   { to: "/experiences", label: "Experiences" },
   { to: "/destinations", label: "Destinations" },

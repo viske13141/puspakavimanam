@@ -47,6 +47,7 @@ import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminSupportRouteImport } from './routes/admin.support'
 import { Route as AdminVoiceRouteImport } from './routes/admin.voice'
 import { Route as AdminYachtsRouteImport } from './routes/admin.yachts'
+import { Route as AviationPrivateJetsRouteImport } from './routes/aviation.private-jets'
 import { Route as CrmIndexRouteImport } from './routes/crm.index'
 import { Route as CrmAnalyticsRouteImport } from './routes/crm.analytics'
 import { Route as CrmAssignmentsRouteImport } from './routes/crm.assignments'
@@ -326,6 +327,11 @@ const AdminYachtsRoute = AdminYachtsRouteImport.update({
   id: '/admin/yachts',
   path: '/admin/yachts',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AviationPrivateJetsRoute = AviationPrivateJetsRouteImport.update({
+  id: '/private-jets',
+  path: '/private-jets',
+  getParentRoute: () => AviationRoute,
 } as any)
 const CrmIndexRoute = CrmIndexRouteImport.update({
   id: '/',
@@ -777,7 +783,7 @@ const CustomerRequestsNewRoute = CustomerRequestsNewRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/aviation': typeof AviationRoute
+  '/aviation': typeof AviationRouteWithChildren
   '/concierge': typeof ConciergeRoute
   '/crm': typeof CrmRouteWithChildren
   '/destinations': typeof DestinationsRoute
@@ -813,6 +819,7 @@ export interface FileRoutesByFullPath {
   '/admin/support': typeof AdminSupportRoute
   '/admin/voice': typeof AdminVoiceRoute
   '/admin/yachts': typeof AdminYachtsRoute
+  '/aviation/private-jets': typeof AviationPrivateJetsRoute
   '/crm/analytics': typeof CrmAnalyticsRoute
   '/crm/assignments': typeof CrmAssignmentsRoute
   '/crm/audit-logs': typeof CrmAuditLogsRoute
@@ -906,7 +913,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/aviation': typeof AviationRoute
+  '/aviation': typeof AviationRouteWithChildren
   '/concierge': typeof ConciergeRoute
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
@@ -941,6 +948,7 @@ export interface FileRoutesByTo {
   '/admin/support': typeof AdminSupportRoute
   '/admin/voice': typeof AdminVoiceRoute
   '/admin/yachts': typeof AdminYachtsRoute
+  '/aviation/private-jets': typeof AviationPrivateJetsRoute
   '/crm/analytics': typeof CrmAnalyticsRoute
   '/crm/assignments': typeof CrmAssignmentsRoute
   '/crm/audit-logs': typeof CrmAuditLogsRoute
@@ -1035,7 +1043,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
-  '/aviation': typeof AviationRoute
+  '/aviation': typeof AviationRouteWithChildren
   '/concierge': typeof ConciergeRoute
   '/crm': typeof CrmRouteWithChildren
   '/destinations': typeof DestinationsRoute
@@ -1071,6 +1079,7 @@ export interface FileRoutesById {
   '/admin/support': typeof AdminSupportRoute
   '/admin/voice': typeof AdminVoiceRoute
   '/admin/yachts': typeof AdminYachtsRoute
+  '/aviation/private-jets': typeof AviationPrivateJetsRoute
   '/crm/analytics': typeof CrmAnalyticsRoute
   '/crm/assignments': typeof CrmAssignmentsRoute
   '/crm/audit-logs': typeof CrmAuditLogsRoute
@@ -1202,6 +1211,7 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/voice'
     | '/admin/yachts'
+    | '/aviation/private-jets'
     | '/crm/analytics'
     | '/crm/assignments'
     | '/crm/audit-logs'
@@ -1330,6 +1340,7 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/voice'
     | '/admin/yachts'
+    | '/aviation/private-jets'
     | '/crm/analytics'
     | '/crm/assignments'
     | '/crm/audit-logs'
@@ -1459,6 +1470,7 @@ export interface FileRouteTypes {
     | '/admin/support'
     | '/admin/voice'
     | '/admin/yachts'
+    | '/aviation/private-jets'
     | '/crm/analytics'
     | '/crm/assignments'
     | '/crm/audit-logs'
@@ -1553,7 +1565,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
-  AviationRoute: typeof AviationRoute
+  AviationRoute: typeof AviationRouteWithChildren
   ConciergeRoute: typeof ConciergeRoute
   CrmRoute: typeof CrmRouteWithChildren
   DestinationsRoute: typeof DestinationsRoute
@@ -1882,6 +1894,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/yachts'
       preLoaderRoute: typeof AdminYachtsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/aviation/private-jets': {
+      id: '/aviation/private-jets'
+      path: '/private-jets'
+      fullPath: '/aviation/private-jets'
+      preLoaderRoute: typeof AviationPrivateJetsRouteImport
+      parentRoute: typeof AviationRoute
     }
     '/crm/': {
       id: '/crm/'
@@ -2509,6 +2528,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AviationRouteChildren {
+  AviationPrivateJetsRoute: typeof AviationPrivateJetsRoute
+}
+
+const AviationRouteChildren: AviationRouteChildren = {
+  AviationPrivateJetsRoute: AviationPrivateJetsRoute,
+}
+
+const AviationRouteWithChildren = AviationRoute._addFileChildren(
+  AviationRouteChildren,
+)
+
 interface CrmRouteChildren {
   CrmAnalyticsRoute: typeof CrmAnalyticsRoute
   CrmAssignmentsRoute: typeof CrmAssignmentsRoute
@@ -2679,7 +2710,7 @@ const CustomerRequestsRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
-  AviationRoute: AviationRoute,
+  AviationRoute: AviationRouteWithChildren,
   ConciergeRoute: ConciergeRoute,
   CrmRoute: CrmRouteWithChildren,
   DestinationsRoute: DestinationsRoute,
