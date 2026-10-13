@@ -101,18 +101,19 @@ function LoginPage() {
           </p>
 
           {/* Quick portal access buttons */}
-          <div className="mt-6 grid grid-cols-3 gap-2">
+          <div className="mt-6 grid grid-cols-2 gap-2">
             {([
               { label: "Operations", sub: "Internal team", to: "/operations/dashboard" },
               { label: "Operators", sub: "Fleet partners", to: "/operator/dashboard" },
-              { label: "CRM", sub: "Sales team", to: "/crm/dashboard" },
+              { label: "CRM", sub: "CRM portal", to: "/crm/dashboard" },
+              { label: "Sales Team", sub: "Sales dashboard", to: "/sales/dashboard" },
             ] as const).map(({ label, sub, to }) => (
               <button
                 key={label}
                 type="button"
                 onClick={() => {
                   sessionStorage.setItem("demo_mode", "1");
-                  navigate({ to: to as "/operations/dashboard" | "/operator/dashboard" | "/sales/dashboard" });
+                  navigate({ to: to as "/operations/dashboard" | "/operator/dashboard" | "/crm/dashboard" | "/sales/dashboard" });
                 }}
                 className="border border-ivory/10 bg-ivory/[0.03] px-3 py-3 text-left transition-colors hover:border-champagne/40 hover:bg-champagne/5"
               >
